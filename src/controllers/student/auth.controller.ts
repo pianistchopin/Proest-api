@@ -21,7 +21,18 @@ class AuthController{
         try {
             const userData: SignUpUserDto  = req.body;
             const signUpUser: Student = await this.authService.signUp(userData);
-            res.status(201).json({ data: signUpUser, message: 'signup', status: 1 });
+
+            const school_years = await this.schoolYearService.findAll();
+            const positions = await this.positionService.findAll();
+            const pitching_battings = await this.pitchingBatting.findAll();
+            const resData = {
+                user: signUpUser,
+                school_year_list: school_years,
+                position_list: positions,
+                pitching_batting_list: pitching_battings
+            }
+            
+            res.status(201).json({ data: {...resData}, message: 'login', status: 1 });
         } catch (error) {
             next(error);
         }

@@ -9,17 +9,18 @@ import {DataStoredInToken, TokenData} from "@interfaces/auth.interface";
 
 class AuthService{
     public async signUp(userData: SignUpUserDto){
-        if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+        if (isEmpty(userData)) throw new HttpException(200, "You're not userData");
 
         const users: Student[] = await Student.find();
         const findUser = users.find(user => user.email === userData.email);
-        if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
+        if (findUser) throw new HttpException(200, `registered email`);
 
         const hashedPassword = await bcrypt.hash(userData.password, 10);
-        const createUserData = Student.create(userData);
+        const createUserData: Student = Student.create(userData);
         createUserData.password = hashedPassword;
         const result = await Student.save(createUserData);
-        return result;
+        
+        return await Student.findOne(result.id);
     }
     
     public async logIn(userData: LoginUserDto){
