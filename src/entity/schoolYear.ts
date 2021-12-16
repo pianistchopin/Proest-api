@@ -7,6 +7,6 @@ export class SchoolYear extends BaseEntity {
     id: number;
 
     @Column()
-    title: number;
+    title: string;
 
 }

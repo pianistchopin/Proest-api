@@ -7,6 +7,6 @@ export class Position extends BaseEntity {
     id: number;
 
     @Column()
-    title: number;
+    title: String;
 
 }
