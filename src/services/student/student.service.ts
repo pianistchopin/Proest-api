@@ -1,0 +1,34 @@
+import {CreateStudentDto} from "@dtos/createStudent.dto";
+import {UpdateStudentDto} from "@dtos/updateStudent.dto";
+import {isEmpty} from "@utils/util";
+import {HttpException} from "@exceptions/HttpException";
+import {Student} from "@entity/student";
+
+export class StudentService{
+    create = (createStudentDto: CreateStudentDto) => {
+
+    }
+
+    findAll = () => {
+
+    }
+
+    findOne = (id: number) => {
+
+    }
+
+    update = async (id: number, updateStudentDto: UpdateStudentDto) => {
+        if (isEmpty(updateStudentDto)) throw new HttpException(400, "You're not userData");
+        
+        const findStudent: Student = await Student.findOne(id);
+        if(!findStudent) throw new HttpException(409, "You're not user");
+
+        await Student.update(id, updateStudentDto);
+        
+        return await Student.findOne(id);
+    }
+
+    remove = (id: number) => {
+
+    }
+}
