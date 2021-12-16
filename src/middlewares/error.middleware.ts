@@ -7,7 +7,7 @@ function errorMiddleware(error: HttpException, req: Request, res: Response, next
 
     console.error('[ERROR] ', status, message);
 
-    res.status(status).json({ message });
+    res.status(status).json({ message, status: 0 });
 }
 
 export default errorMiddleware;
