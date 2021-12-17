@@ -11,8 +11,8 @@ export interface TokenData{
     expiresIn: number;
 }
 
-export interface RequestWithUser extends Request{
-    user: Student;
+export interface RequestWithStudent extends Request{
+    student: Student;
 }
 
 export interface RequestWithCoach extends Request{

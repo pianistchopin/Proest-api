@@ -2,10 +2,10 @@ import config from "config";
 import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
 import { HttpException } from "@exceptions/HttpException";
-import { DataStoredInToken, RequestWithUser } from "@interfaces/auth.interface";
+import { DataStoredInToken, RequestWithStudent } from "@interfaces/auth.interface";
 import {Student} from "@entity/student";
 
-const authMiddleware = async (req: RequestWithUser, res: Response, next: NextFunction ) => {
+const authMiddleware = async (req: RequestWithStudent, res: Response, next: NextFunction ) => {
     try {
         const Authorization = req.header('Authorization').split('Bearer ')[1] || null;
         
@@ -16,7 +16,7 @@ const authMiddleware = async (req: RequestWithUser, res: Response, next: NextFun
             const findUser = users.find(user => user.id === userId);
             
             if(findUser){
-                req.user = findUser;
+                req.student = findUser;
                 next();
             }else {
                 next(new HttpException(401, 'Wrong authentication token'));

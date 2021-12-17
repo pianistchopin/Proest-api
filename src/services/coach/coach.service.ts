@@ -18,7 +18,9 @@ export class CoachService{
     }
 
     findCoachByPsition = async (posigionId: number) => {
-        const coaches: Coach[] = await getRepository(Coach).createQueryBuilder().where("position = :position", {position: posigionId }).getMany();
+        const coaches: Coach[] = await getRepository(Coach)
+            .createQueryBuilder()
+            .where("position = :position", {position: posigionId }).getMany();
         
         return coaches;
     }

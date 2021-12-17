@@ -7,6 +7,7 @@ import {SignUpUserDto} from "@dtos/signUpUser.dto";
 import {LoginUserDto} from "@dtos/loginUser.dto";
 import CoachAuthMiddleware from "@middlewares/coachAuth.middleware";
 import {CoachInvitationController} from "@controllers/coachInvitation.controller";
+import {StudentController} from "@controllers/student/student.controller";
 
 class CoachRoute implements Routes{
     path: string = "/coach";
@@ -15,6 +16,7 @@ class CoachRoute implements Routes{
     authController = new AuthController();
     coachController = new CoachController();
     coachInvitationController = new CoachInvitationController();
+    studentController = new StudentController();
 
     constructor() {
         this.initializeRoutes();
@@ -27,6 +29,7 @@ class CoachRoute implements Routes{
         this.router.put(`${this.path}/:id(\\d+)`, this.coachController.update);
         this.router.get(`${this.path}/getMyStudentAndInvite`,CoachAuthMiddleware, this.coachController.getMyStudentAndInvite);
         this.router.post(`${this.path}/accept`,CoachAuthMiddleware, this.coachController.accpetInvitation);
+        this.router.post(`${this.path}/find_coaches`, this.coachController.findCoachByPosition);
     }
 }
 

@@ -6,12 +6,10 @@ import {Student} from "@entity/student";
 import {Coach} from "@entity/coach";
 import {CoachService} from "@services/coach/coach.service";
 
-
 export class StudentController {
     
     public studentService = new StudentService();
     public coachService = new CoachService();
-    
     create = (createStudentDto: CreateStudentDto) => {
         
     }
@@ -27,26 +25,18 @@ export class StudentController {
     update = async (req: Request, res: Response, next: NextFunction) => {
         try {
             const id = Number(req.params.id);
-            const userData: UpdateStudentDto = req.body;
+            const userData: UpdateStudentDto = JSON.parse(JSON.stringify(req.body));
+            // const data = req.file;
+            // console.log(data);
             const updateUserData: Student = await this.studentService.update(id, userData);
 
-            res.status(200).json({ data: updateUserData, message: 'updated' });
+            res.status(200).json({ data: updateUserData, message: 'updated', status:1 });
         }catch (error){
             next(error);
         }
     }
     
-    findCoachByPosition = async (req: Request, res: Response, next: NextFunction) =>{
-        try{
-            const positionId = Number(req.query.position);
-            const coaches: Coach[] = await this.coachService.findCoachByPsition(positionId);
-            
-            res.status(200).json({data: coaches, message: "coach list by position id"})
-            
-        }catch (error){
-            next(error);
-        }
-    }
+
     
     remove = (id: number) => {
         

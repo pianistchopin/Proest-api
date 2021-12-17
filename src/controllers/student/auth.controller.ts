@@ -6,7 +6,7 @@ import {Student} from "@entity/student";
 import { SchoolYearService } from "@services/schoolYear.service";
 import {PositionService} from "@services/position.service";
 import {PitchingBattingService} from "@services/pitchingBatting.service";
-import {RequestWithUser} from "@interfaces/auth.interface";
+import {RequestWithStudent} from "@interfaces/auth.interface";
 
 
 class AuthController{
@@ -58,12 +58,12 @@ class AuthController{
         }
     }
 
-    logOut = async (req: RequestWithUser, res: Response, next: NextFunction): Promise<void> => {
+    logOut = async (req: RequestWithStudent, res: Response, next: NextFunction): Promise<void> => {
         try {
-            const userData = req.user;
+            const userData = req.student;
             const logOutUserData: Student = await this.authService.logOut(userData);
 
-            res.status(200).json({data: logOutUserData, message: 'logout'});
+            res.status(200).json({ message: 'logout', status:1});
         } catch (error){
             next(error);
         }
