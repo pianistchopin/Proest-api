@@ -19,6 +19,15 @@ class AuthService{
         const createUserData: Student = Student.create(userData);
         createUserData.password = hashedPassword;
         const result = await Student.save(createUserData);
+
+        /**
+         * add token
+         */
+        const tokenData = this.createToken(result);
+        createUserData.access_token = tokenData.token;
+
+        await Student.update(result.id, createUserData);
+        //-------------------------------------------------------
         
         return await Student.findOne(result.id);
     }
@@ -33,10 +42,15 @@ class AuthService{
         const isPasswordMatching: boolean = await bcrypt.compare(userData.password, findUser.password);
         if(!isPasswordMatching) throw new HttpException(200, "You're password not matching");
 
+        /**
+         * add token
+         */
         const tokenData = this.createToken(findUser);
 
         const updateUserData = Student.create(findUser);
         updateUserData.access_token = tokenData.token;
+        //-------------------------------------------------------
+        
         await Student.update(updateUserData.id, updateUserData);
         const user: Student = await Student.findOne(updateUserData.id);
         
