@@ -5,6 +5,7 @@ import {StudentService} from "@services/student/student.service";
 import {Student} from "@entity/student";
 import {Coach} from "@entity/coach";
 import {CoachService} from "@services/coach/coach.service";
+import {RequestWithCoach, RequestWithStudent} from "@interfaces/auth.interface";
 
 export class StudentController {
     
@@ -22,9 +23,9 @@ export class StudentController {
         
     }
     
-    update = async (req: Request, res: Response, next: NextFunction) => {
+    update = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
         try {
-            const id = Number(req.params.id);
+            const id = req.student.id;
             const userData: UpdateStudentDto = JSON.parse(JSON.stringify(req.body));
             // const data = req.file;
             // console.log(data);

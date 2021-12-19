@@ -11,4 +11,9 @@ export class CoachInvitationDto{
     @IsString()
     status: string;
 
+    @IsString()
+    start_date: string;
+
+    @IsString()
+    expire_date: string;
 }

@@ -39,4 +39,6 @@ export class Student extends BaseEntity{
     @Column()
     access_token: string;
     
+    @Column()
+    expire_date: string;
 }

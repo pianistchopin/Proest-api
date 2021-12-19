@@ -32,7 +32,7 @@ class AuthController{
                 pitching_batting_list: pitching_battings
             }
             
-            res.status(201).json({ data: {...resData}, message: 'login', status: 1 });
+            res.status(201).json({ data: {...resData}, message: 'register', status: 1 });
         } catch (error) {
             next(error);
         }

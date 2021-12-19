@@ -8,28 +8,8 @@ import authMiddleware from "@middlewares/auth.middleware";
 import {StudentController} from "@controllers/student/student.controller";
 import {CoachInvitationController} from "@controllers/coachInvitation.controller"
 import multer from "multer";
+import {upload} from '@utils/util';
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, './uploads/')
-    },
-
-    filename: function (req: any, file: any, cb: any) {
-        console.log(file);
-        cb(null, Date.now() + ".jpg")
-    }
-});
-const fileFilter = (req: any,file: any,cb: any) => {
-    if(file.mimetype === "image/jpg"  ||
-        file.mimetype ==="image/jpeg"  ||
-        file.mimetype ===  "image/png"){
-
-        cb(null, true);
-    }else{
-        cb(new Error("Image uploaded is not of type jpg/jpeg or png"),false);
-    }
-}
-const upload = multer({storage: storage, fileFilter : fileFilter});
 
 class StudentRoute implements Routes {
     path: string = "/student";
@@ -47,7 +27,7 @@ class StudentRoute implements Routes {
         this.router.post(`${this.path}/register`,validationMiddleware(SignUpUserDto, 'body'), this.authController.signUp);
         this.router.post(`${this.path}/login`,validationMiddleware(LoginUserDto, 'body'), this.authController.logIn);
         this.router.get(`${this.path}/logout`,authMiddleware, this.authController.logOut);
-        this.router.put(`${this.path}/:id(\\d+)`,[upload.single("file"), authMiddleware], this.studentController.update);
+        this.router.put(`${this.path}/update_profile`,[upload.single("file"), authMiddleware], this.studentController.update);
         this.router.post(`${this.path}/invite`,authMiddleware, this.coachInvitationController.inviteCoachFromStudent);
     }
 }

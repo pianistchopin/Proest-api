@@ -2,6 +2,7 @@ import {CoachInvitationDto} from "@dtos/coachInvitation.dto";
 import {CoachInvitation} from "@entity/coachInvitation";
 import {getRepository, createQueryBuilder, getManager} from "typeorm";
 import {Student} from "@entity/student";
+import moment from "moment";
 
 export class CoachInvitationService{
 
@@ -37,15 +38,13 @@ export class CoachInvitationService{
             .getRawMany();
     }
 
-    acceptInvitation = async (coach_id, student_id) => {
-
-        const coachInvitation = new CoachInvitation();
-        coachInvitation.status = "accepted";
-        await CoachInvitation.createQueryBuilder("coachInvitation")
-            .update(coachInvitation)
+    acceptInvitation = async (coachInvitationDto: CoachInvitationDto, coach_id, student_id) => {
+        
+        return await CoachInvitation.createQueryBuilder("coachInvitation")
+            .update(coachInvitationDto)
             .where("coach_id = :coach_id", { coach_id: coach_id })
             .andWhere("student_id = :student_id", { student_id: student_id })
+            .andWhere("status = 'pending'")
             .execute();
-        
     }
 }

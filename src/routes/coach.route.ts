@@ -8,6 +8,7 @@ import {LoginUserDto} from "@dtos/loginUser.dto";
 import CoachAuthMiddleware from "@middlewares/coachAuth.middleware";
 import {CoachInvitationController} from "@controllers/coachInvitation.controller";
 import {StudentController} from "@controllers/student/student.controller";
+import {upload} from '@utils/util';
 
 class CoachRoute implements Routes{
     path: string = "/coach";
@@ -26,9 +27,9 @@ class CoachRoute implements Routes{
         this.router.post(`${this.path}/register`,validationMiddleware(SignUpUserDto, 'body'), this.authController.signUp);
         this.router.post(`${this.path}/login`,validationMiddleware(LoginUserDto, 'body'), this.authController.logIn);
         this.router.get(`${this.path}/logout`, this.authController.logOut);
-        this.router.put(`${this.path}/:id(\\d+)`, this.coachController.update);
-        this.router.get(`${this.path}/getMyStudentAndInvite`,CoachAuthMiddleware, this.coachController.getMyStudentAndInvite);
-        this.router.post(`${this.path}/accept`,CoachAuthMiddleware, this.coachController.accpetInvitation);
+        this.router.put(`${this.path}/update_profile`,[upload.single("file"), CoachAuthMiddleware], this.coachController.update);
+        this.router.get(`${this.path}/get_my_student_and_invite`,CoachAuthMiddleware, this.coachController.getMyStudentAndInvite);
+        this.router.post(`${this.path}/accept_invite`,CoachAuthMiddleware, this.coachController.accpetInvitation);
         this.router.post(`${this.path}/find_coaches`, this.coachController.findCoachByPosition);
     }
 }

@@ -6,20 +6,31 @@ import {SignUpUserDto} from "@dtos/signUpUser.dto";
 import {HttpException} from "@exceptions/HttpException";
 import {Coach} from "@entity/coach";
 import {DataStoredInToken, TokenData} from "@interfaces/auth.interface";
+import {Student} from "@entity/student";
 
 class AuthService{
     public async signUp(userData: SignUpUserDto){
-        if (isEmpty(userData)) throw new HttpException(400, "You're not userData");
+        if (isEmpty(userData)) throw new HttpException(200, "You're not userData");
 
         const users: Coach[] = await Coach.find();
         const findUser = users.find(user => user.email === userData.email);
-        if (findUser) throw new HttpException(409, `You're email ${userData.email} already exists`);
+        if (findUser) throw new HttpException(200, `registered email`);
 
         const hashedPassword = await bcrypt.hash(userData.password, 10);
         const createUserData = Coach.create(userData);
         createUserData.password = hashedPassword;
         const result = await Coach.save(createUserData);
-        return result;
+
+        /**
+         * add token
+         */
+        const tokenData = this.createToken(result);
+        createUserData.access_token = tokenData.token;
+
+        await Coach.update(result.id, createUserData);
+        //-------------------------------------------------------
+        
+        return await Coach.findOne(result.id);
     }
 
     public async logIn(userData: LoginUserDto){

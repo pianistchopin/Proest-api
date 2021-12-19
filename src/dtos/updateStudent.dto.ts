@@ -33,4 +33,7 @@ export class UpdateStudentDto {
 
     @IsString()
     access_token?: string;
+
+    @IsString()
+    expire_date?: string;
 }

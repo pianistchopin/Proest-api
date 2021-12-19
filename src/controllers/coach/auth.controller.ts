@@ -19,7 +19,17 @@ class AuthController{
         try {
             const userData: SignUpUserDto  = req.body;
             const signUpUser: Coach = await this.authService.signUp(userData);
-            res.status(201).json({ data: signUpUser, message: 'signup' });
+
+            const school_years = await this.schoolYearService.findAll();
+            const positions = await this.positionService.findAll();
+            const pitching_battings = await this.pitchingBatting.findAll();
+            const resData = {
+                user: signUpUser,
+                school_year_list: school_years,
+                position_list: positions,
+                pitching_batting_list: pitching_battings
+            }
+            res.status(201).json({ data: {...resData}, message: 'register', status: 1 });
         } catch (error) {
             next(error);
         }
@@ -30,16 +40,16 @@ class AuthController{
             const userData: LoginUserDto = req.body;
             const user = await this.authService.logIn(userData);
 
-            const schoolYears = this.schoolYearService.findAll();
-            const positions = this.positionService.findAll();
-            const pitchingBattings = this.pitchingBatting.findAll();
+            const schoolYears = await this.schoolYearService.findAll();
+            const positions = await this.positionService.findAll();
+            const pitchingBattings = await this.pitchingBatting.findAll();
             const resData = {
                 user: user,
                 schoolYear: schoolYears,
                 position: positions,
                 pitchingBatting: pitchingBattings
             }
-            res.status(200).json({ ...resData, message: 'login'});
+            res.status(200).json({ ...resData, message: 'login', status:1});
         }catch (error){
             next(error);
         }
@@ -50,7 +60,7 @@ class AuthController{
             const userData = req.coach;
             const logOutUserData: Coach = await this.authService.logOut(userData);
 
-            res.status(200).json({data: logOutUserData, message: 'logout'});
+            res.status(200).json({data: logOutUserData, message: 'logout', status:1});
         } catch (error){
             next(error);
         }
