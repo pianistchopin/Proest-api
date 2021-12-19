@@ -47,4 +47,13 @@ export class CoachInvitationService{
             .andWhere("status = 'pending'")
             .execute();
     }
+
+    declineInvitation = async (coach_id, student_id) => {
+        await CoachInvitation.createQueryBuilder("coachInvitation")
+            .delete()
+            .where("coach_id = :coach_id", { coach_id: coach_id })
+            .andWhere("student_id = :student_id", { student_id: student_id })
+            .andWhere("status = 'pending'")
+            .execute();
+    }
 }

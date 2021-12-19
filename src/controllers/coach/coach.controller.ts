@@ -76,6 +76,20 @@ export class CoachController {
             next(error);
         }
     }
+    
+    declineInvitation = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
+        try {
+            const coach_id = req.coach.id;
+            const student_id = req.body.student_id;
+            console.log(student_id)
+
+            await this.coachInvitationService.declineInvitation(coach_id, student_id);
+
+            res.status(200).json({  message: 'decline invitation', status:1 });
+        }catch (error){
+            next(error);
+        }
+    }
 
     findCoachByPosition = async (req: Request, res: Response, next: NextFunction) =>{
         try{
