@@ -90,7 +90,7 @@ export class StudentController {
             const student = req.student;
             const position_id = student.position;
             const recommend_coach: any = await this.coachService.findCoachByPsition(position_id);
-            res.status(200).json({ data: recommend_coach, message: 'my coach and other', status:1 });
+            res.status(200).json({ data: recommend_coach, message: 'recommend coach by top rating with same position', status:1 });
         }catch (error) {
             next(error);
         }
