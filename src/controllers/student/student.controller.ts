@@ -59,6 +59,15 @@ export class StudentController {
         }
     }
 
+    getTopRateCoach = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+        try {
+            const top_rate_coach = await this.coachService.findCoachOrderByRate();
+            res.status(200).json({ data: top_rate_coach, message: 'Top Rate Coach', status:1 });
+        }catch (error){
+            next(error);
+        }
+    }
+
     getMyCoachAndOther =  async (req: RequestWithStudent, res: Response, next: NextFunction) => {
         try {
             const student_id = req.student.id;

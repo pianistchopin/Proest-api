@@ -30,11 +30,17 @@ class StudentRoute implements Routes {
         this.router.post(`${this.path}/login`,validationMiddleware(LoginUserDto, 'body'), this.authController.logIn);
         this.router.get(`${this.path}/logout`,authMiddleware, this.authController.logOut);
         this.router.put(`${this.path}/update_profile`,[upload.single("file"), authMiddleware], this.studentController.update);
+        this.router.post(`${this.path}/get_top_rate_coach`,authMiddleware, this.studentController.getTopRateCoach);
+        this.router.post(`${this.path}/get_recommend_coach`,authMiddleware, this.studentController.getRecommendCoach);
+        
         this.router.post(`${this.path}/invite`,authMiddleware, this.coachInvitationController.inviteCoachFromStudent);
+
+        
+        
         this.router.post(`${this.path}/get_my_coach_and_history`,authMiddleware, this.studentController.getMyCoachAndHistory);
         this.router.post(`${this.path}/student_mange_chat`,authMiddleware, this.chatController.studentManageChat);
         this.router.post(`${this.path}/get_my_coach_and_other`,authMiddleware, this.studentController.getMyCoachAndOther);
-        this.router.post(`${this.path}/get_recommend_coach`,authMiddleware, this.studentController.getRecommendCoach);
+        
     }
 }
 
