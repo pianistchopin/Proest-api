@@ -30,11 +30,12 @@ class StudentRoute implements Routes {
         this.router.post(`${this.path}/login`,validationMiddleware(LoginUserDto, 'body'), this.authController.logIn);
         this.router.get(`${this.path}/logout`,authMiddleware, this.authController.logOut);
         this.router.put(`${this.path}/update_profile`,[upload.single("file"), authMiddleware], this.studentController.update);
-        this.router.post(`${this.path}/get_top_rate_coach`,authMiddleware, this.studentController.getTopRateCoach);
-        this.router.post(`${this.path}/get_recommend_coach`,authMiddleware, this.studentController.getRecommendCoach);
+        this.router.post(`${this.path}/get_top_rate_coaches`,authMiddleware, this.studentController.getTopRateCoach);
+        this.router.post(`${this.path}/get_recommend_coaches`,authMiddleware, this.studentController.getRecommendCoach);
         this.router.post(`${this.path}/get_my_coach`,authMiddleware, this.studentController.getMyCoach);
-        this.router.post(`${this.path}/get_my_coach_history`,authMiddleware, this.studentController.getMyCoachHistory);
+        this.router.post(`${this.path}/get_my_history_coaches`,authMiddleware, this.studentController.getMyCoachHistory);
         this.router.post(`${this.path}/invite_coach`,authMiddleware, this.coachInvitationController.inviteCoachFromStudent);
+        this.router.post(`${this.path}/pending_coach`,authMiddleware, this.coachInvitationController.pendingCoach);
         
         
         this.router.post(`${this.path}/student_mange_chat`,authMiddleware, this.chatController.studentManageChat);

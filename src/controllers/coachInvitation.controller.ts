@@ -25,6 +25,18 @@ export class CoachInvitationController{
         }
     }
 
+    pendingCoach = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+        try {
+            const student_id = req.student.id;
+            const my_coach: any = await this.coachInvitationService.findPendingCoach(student_id);
+
+            res.status(200).json({ data: my_coach, message: 'my coach', status:1 });
+            
+        } catch (error){
+            next(error);
+        }
+    }
+
     accpetInvitation = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
         try {
             const coach_id = req.coach.id;
@@ -69,4 +81,6 @@ export class CoachInvitationController{
             next(error);
         }
     }
+
+    
 }

@@ -39,6 +39,16 @@ export class CoachInvitationService{
             .getRawMany();
     }
 
+    findPendingCoach = async (student_id: Number) => {
+        return await getManager().createQueryBuilder()
+            .select("Coach.*")
+            .from(CoachInvitation, "CoachInvitation")
+            .innerJoin(Coach, "Coach", "CoachInvitation.coach_id = Coach.id")
+            .where("CoachInvitation.student_id = :student_id", {student_id: student_id})
+            .andWhere("CoachInvitation.status = 'pendding'")
+            .getRawMany();
+    }
+
     acceptInvitation = async (coachInvitationDto: CoachInvitationDto, coach_id, student_id) => {
         
         return await CoachInvitation.createQueryBuilder("coachInvitation")

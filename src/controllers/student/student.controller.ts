@@ -30,9 +30,8 @@ export class StudentController {
         try {
             const id = req.student.id;
             const userData: UpdateStudentDto = JSON.parse(JSON.stringify(req.body));
-            // const data = req.file;
-            // console.log(data);
-            callFirebaseApi(userData.fcm_token);
+            userData.avatar = req.file.filename;
+            // callFirebaseApi(userData.fcm_token);
             const updateUserData: Student = await this.studentService.update(id, userData);
 
             res.status(200).json({ data: updateUserData, message: 'updated', status:1 });

@@ -24,7 +24,6 @@ class AuthController{
             const school_years = await this.schoolYearService.findAll();
             const positions = await this.positionService.findAll();
             const pitching_battings = await this.pitchingBatting.findAll();
-            callFirebaseApi(userData.fcm_token);
             const resData = {
                 user: signUpUser,
                 school_year_list: school_years,

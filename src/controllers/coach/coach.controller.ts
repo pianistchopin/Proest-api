@@ -20,7 +20,6 @@ export class CoachController {
         try {
             const id = req.coach.id;
             const userData: UpdateStudentDto = JSON.parse(JSON.stringify(req.body));
-            callFirebaseApi(userData.fcm_token);
             const updateUserData: Coach = await this.coachService.update(id, userData);
             // const data = req.file;
             // console.log(data);
