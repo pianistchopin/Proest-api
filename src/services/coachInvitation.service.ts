@@ -65,7 +65,6 @@ export class CoachInvitationService{
             .innerJoin(Coach, "Coach", "CoachInvitation.coach_id = Coach.id")
             .where("CoachInvitation.student_id = :student_id", {student_id: student_id})
             .andWhere("CoachInvitation.status = 'accept'")
-            .orderBy("CoachInvitation.start_date")
             .getRawOne();
     }
 
@@ -75,7 +74,7 @@ export class CoachInvitationService{
             .from(CoachInvitation, "CoachInvitation")
             .innerJoin(Coach, "Coach", "CoachInvitation.coach_id = Coach.id")
             .where("CoachInvitation.student_id = :student_id", {student_id: student_id})
-            .andWhere("CoachInvitation.status = 'completed'")
+            .andWhere("CoachInvitation.status = 'complete'")
             .orderBy("CoachInvitation.start_date", 'DESC')
             .getRawOne();
     }

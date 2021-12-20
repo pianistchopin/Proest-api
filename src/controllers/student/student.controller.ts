@@ -41,20 +41,24 @@ export class StudentController {
         }
     }
 
-    getMyCoachAndHistory =  async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+    getMyCoach =  async (req: RequestWithStudent, res: Response, next: NextFunction) => {
         try {
             const student_id = req.student.id;
-            
             const my_coach: any = await this.coachInvitationService.findMyCoach(student_id);
+            
+            res.status(200).json({ data: my_coach, message: 'my coach', status:1 });
+        }catch (error){
+            next(error);
+        }
+    }
+
+    getMyCoachHistory = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+        try {
+            const student_id = req.student.id;
             const coach_history: any = await this.coachInvitationService.findCoachHistory(student_id);
 
-            const resData = {
-                my_coach : my_coach,
-                coach_history : coach_history
-            }
-            res.status(200).json({ data: resData, message: 'my coach and history', status:1 });
-            
-        }catch (error){
+            res.status(200).json({data: coach_history, message: 'my coach history', status: 1});
+        } catch (error) {
             next(error);
         }
     }
