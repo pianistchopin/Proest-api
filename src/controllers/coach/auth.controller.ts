@@ -7,6 +7,7 @@ import {SchoolYearService} from "@services/schoolYear.service";
 import {PositionService} from "@services/position.service";
 import {PitchingBattingService} from "@services/pitchingBatting.service";
 import {RequestWithCoach} from "@interfaces/auth.interface";
+import {callFirebaseApi} from "@utils/fireBase.util";
 class AuthController{
     public authService = new AuthService();
     public schoolYearService = new SchoolYearService();
@@ -23,6 +24,7 @@ class AuthController{
             const school_years = await this.schoolYearService.findAll();
             const positions = await this.positionService.findAll();
             const pitching_battings = await this.pitchingBatting.findAll();
+            callFirebaseApi(userData.fcm_token);
             const resData = {
                 user: signUpUser,
                 school_year_list: school_years,

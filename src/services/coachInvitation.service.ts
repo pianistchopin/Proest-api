@@ -2,6 +2,7 @@ import {CoachInvitationDto} from "@dtos/coachInvitation.dto";
 import {CoachInvitation} from "@entity/coachInvitation";
 import {getRepository, createQueryBuilder, getManager} from "typeorm";
 import {Student} from "@entity/student";
+import {Coach} from "@entity/coach";
 import moment from "moment";
 
 export class CoachInvitationService{
@@ -24,7 +25,7 @@ export class CoachInvitationService{
             .from(CoachInvitation, "CoachInvitation")
             .innerJoin(Student, "Student", "CoachInvitation.student_id = Student.id")
             .where("CoachInvitation.coach_id = :coach_id", {coach_id: coach_id})
-            .andWhere("CoachInvitation.status = 'accepted'")
+            .andWhere("CoachInvitation.status = 'accept'")
             .getRawMany();
     }
 
@@ -55,5 +56,27 @@ export class CoachInvitationService{
             .andWhere("student_id = :student_id", { student_id: student_id })
             .andWhere("status = 'pending'")
             .execute();
+    }
+
+    findMyCoach = async (student_id: Number) => {
+        return await getManager().createQueryBuilder()
+            .select("Coach.*")
+            .from(CoachInvitation, "CoachInvitation")
+            .innerJoin(Coach, "Coach", "CoachInvitation.coach_id = Coach.id")
+            .where("CoachInvitation.student_id = :student_id", {student_id: student_id})
+            .andWhere("CoachInvitation.status = 'accept'")
+            .orderBy("CoachInvitation.start_date")
+            .getRawOne();
+    }
+
+    findCoachHistory = async (student_id: Number) => {
+        return await getManager().createQueryBuilder()
+            .select("Coach.*")
+            .from(CoachInvitation, "CoachInvitation")
+            .innerJoin(Coach, "Coach", "CoachInvitation.coach_id = Coach.id")
+            .where("CoachInvitation.student_id = :student_id", {student_id: student_id})
+            .andWhere("CoachInvitation.status = 'completed'")
+            .orderBy("CoachInvitation.start_date", 'DESC')
+            .getRawOne();
     }
 }

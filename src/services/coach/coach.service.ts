@@ -18,11 +18,24 @@ export class CoachService{
     }
 
     findCoachByPsition = async (posigionId: number) => {
-        const coaches: Coach[] = await getRepository(Coach)
+        return await getRepository(Coach)
             .createQueryBuilder()
-            .where("position = :position", {position: posigionId }).getMany();
-        
-        return coaches;
+            .select("*")
+            .where("position = :position", {position: posigionId })
+            .orderBy("rating", 'DESC')
+            .getRawMany();
     }
     
+    findCoachById = async (id) => {
+        return await Coach.findOne(id);
+    }
+
+    findCoachOrderByRate = async () => {
+        return await getRepository(Coach)
+            .createQueryBuilder()
+            .select("*")
+            .orderBy("rating", 'DESC')
+            .getRawMany();
+    }
+
 }

@@ -9,4 +9,8 @@ export class SignUpUserDto {
 
     @IsString()
     public password: string;
+
+    @IsString()
+    public fcm_token: string;
+
 }

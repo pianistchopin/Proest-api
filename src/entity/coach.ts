@@ -42,7 +42,7 @@ export class Coach extends BaseEntity{
     @Column()
     payment: string;
 
-    @Column()
+    @Column({ type: "float" })
     rating: number;
 
     @Column()
@@ -50,4 +50,7 @@ export class Coach extends BaseEntity{
 
     @Column()
     invitation_code: string;
+
+    @Column()
+    fcm_token: string;
 }

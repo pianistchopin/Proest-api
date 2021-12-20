@@ -2,10 +2,11 @@ import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import {isEmpty} from '@utils/util';
 import {LoginUserDto} from "@dtos/loginUser.dto";
-import {SignUpUserDto} from "@dtos/signUpUser.dto";
 import {HttpException} from "@exceptions/HttpException";
 import {Student} from "@entity/student";
 import {DataStoredInToken, TokenData} from "@interfaces/auth.interface";
+import {UpdateStudentDto} from "@dtos/updateStudent.dto";
+import {SignUpUserDto} from "@dtos/signUpUser.dto";
 
 class AuthService{
     public async signUp(userData: SignUpUserDto){
@@ -78,6 +79,7 @@ class AuthService{
     public createCooke(tokenData: TokenData): string{
         return `Authorization=${tokenData.token}; HttpOnly; Max-Age=${tokenData.expiresIn};`;
     }
+  
 }
 
 export default AuthService;

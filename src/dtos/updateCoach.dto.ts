@@ -46,4 +46,7 @@ export class UpdateCoachDto{
 
     @IsString()
     invitation_code?: string;
+
+    @IsString()
+    fcm_token?: string;
 }

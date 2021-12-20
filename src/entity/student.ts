@@ -41,4 +41,13 @@ export class Student extends BaseEntity{
     
     @Column()
     expire_date: string;
+
+    @Column()
+    today_schedule: string;
+
+    @Column()
+    week_schedule: string;
+
+    @Column()
+    fcm_token: string;
 }

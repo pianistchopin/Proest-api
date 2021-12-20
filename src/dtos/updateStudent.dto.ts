@@ -36,4 +36,7 @@ export class UpdateStudentDto {
 
     @IsString()
     expire_date?: string;
+
+    @IsString()
+    fcm_token?: string;
 }

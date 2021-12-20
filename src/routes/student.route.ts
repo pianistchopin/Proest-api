@@ -9,6 +9,7 @@ import {StudentController} from "@controllers/student/student.controller";
 import {CoachInvitationController} from "@controllers/coachInvitation.controller"
 import multer from "multer";
 import {upload} from '@utils/util';
+import {ChatController} from "@controllers/chat.controller";
 
 
 class StudentRoute implements Routes {
@@ -18,6 +19,7 @@ class StudentRoute implements Routes {
     authController = new AuthController();
     studentController = new StudentController();
     coachInvitationController = new CoachInvitationController();
+    chatController = new ChatController();
     
     constructor() {
         this.initializeRoutes();
@@ -29,6 +31,10 @@ class StudentRoute implements Routes {
         this.router.get(`${this.path}/logout`,authMiddleware, this.authController.logOut);
         this.router.put(`${this.path}/update_profile`,[upload.single("file"), authMiddleware], this.studentController.update);
         this.router.post(`${this.path}/invite`,authMiddleware, this.coachInvitationController.inviteCoachFromStudent);
+        this.router.post(`${this.path}/get_my_coach_and_history`,authMiddleware, this.studentController.getMyCoachAndHistory);
+        this.router.post(`${this.path}/student_mange_chat`,authMiddleware, this.chatController.studentManageChat);
+        this.router.post(`${this.path}/get_my_coach_and_other`,authMiddleware, this.studentController.getMyCoachAndOther);
+        this.router.post(`${this.path}/get_recommend_coach`,authMiddleware, this.studentController.getRecommendCoach);
     }
 }
 
