@@ -36,22 +36,32 @@ export class CoachController {
         }
     }
 
-    getMyStudentAndInvite = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
+    getMyStudents = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
         try {
             const coach_id = req.coach.id;
             const myStudents: any = await this.coachInvitationService.getMyStudent(coach_id);
-            const invitationStudents: any = await this.coachInvitationService.getInvitationStudent(coach_id);
-    
-            const myStudentsInvitationStudents = {
-                myStudents: myStudents,
-                invitationStudents: invitationStudents
-            }
-            
-            res.status(200).json({ data: myStudentsInvitationStudents, message: 'updated' });
+            res.status(200).json({ data: myStudents, message: 'updated' });
         }catch (error){
             next(error);
         }
     }
+
+    // getInviteStudents = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
+    //     try {
+    //         const coach_id = req.coach.id;
+    //         const myStudents: any = await this.coachInvitationService.getMyStudent(coach_id);
+    //         const invitationStudents: any = await this.coachInvitationService.getInvitationStudent(coach_id);
+    //
+    //         const myStudentsInvitationStudents = {
+    //             myStudents: myStudents,
+    //             invitationStudents: invitationStudents
+    //         }
+    //
+    //         res.status(200).json({ data: myStudentsInvitationStudents, message: 'updated' });
+    //     }catch (error){
+    //         next(error);
+    //     }
+    // }
 
     findCoachByPosition = async (req: Request, res: Response, next: NextFunction) =>{
         try{
