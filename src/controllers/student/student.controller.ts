@@ -104,6 +104,17 @@ export class StudentController {
             next(error);
         }
     }
+
+    findStudentById = async (req: Request, res: Response, next: NextFunction) => {
+        try{
+            const student_id = Number(req.body.student_id );
+            const student: Student = await this.studentService.findStudentById(student_id);
+
+            res.status(200).json({data: student, message: "student by id", status:1})
+        }catch (error){
+            next(error);
+        }
+    }
     
     remove = (id: number) => {
         

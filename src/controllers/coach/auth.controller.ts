@@ -58,11 +58,11 @@ class AuthController{
             const pitchingBattings = await this.pitchingBatting.findAll();
             const resData = {
                 user: user,
-                schoolYear: schoolYears,
-                position: positions,
-                pitchingBatting: pitchingBattings
+                school_year_list: schoolYears,
+                position_list: positions,
+                pitching_batting_list: pitchingBattings
             }
-            res.status(200).json({ ...resData, message: 'login', status:1});
+            res.status(200).json({ data: {...resData}, message: 'login', status:1});
         }catch (error){
             next(error);
         }

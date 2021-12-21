@@ -62,7 +62,7 @@ export class CoachInvitationController{
             await this.coachInvitationService.acceptInvitation(coachInvitationDto, coach_id, student_id);
 
             /**
-             * set expire_date of student table
+             * set expire_date and coach_id of student table
              */
             const studentDto = new UpdateStudentDto();
             studentDto.coach_id = coach_id;

@@ -38,7 +38,7 @@ export class CoachInvitationService{
             .getRawMany();
     }
 
-    getInvitationStudent = async (coach_id: Number) => {
+    getPendingStudent = async (coach_id: Number) => {
         return await getManager().createQueryBuilder()
             .select("Student.*")
             .from(CoachInvitation, "CoachInvitation")
