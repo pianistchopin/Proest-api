@@ -47,14 +47,23 @@ export class CoachController {
         }
     }
 
-
-
     findCoachByPosition = async (req: Request, res: Response, next: NextFunction) =>{
         try{
             const positionId = Number(req.body.position);
             const coaches: Coach[] = await this.coachService.findCoachByPsition(positionId);
 
             res.status(200).json({data: coaches, message: "coach list by position id", status:1})
+        }catch (error){
+            next(error);
+        }
+    }
+
+    findCoachById = async (req: Request, res: Response, next: NextFunction) =>{
+        try{
+            const coach_id = Number(req.body.coach_id );
+            const coach: Coach = await this.coachService.findCoachById(coach_id);
+
+            res.status(200).json({data: coach, message: "coach by id", status:1})
         }catch (error){
             next(error);
         }

@@ -72,9 +72,8 @@ export class CoachInvitationController{
         try {
             const coach_id = req.coach.id;
             const student_id = req.body.student_id;
-            console.log(student_id)
 
-            await this.coachInvitationService.declineInvitation(coach_id, student_id);
+            await this.coachInvitationService.removeInvitation(coach_id, student_id);
 
             res.status(200).json({  message: 'decline invitation', status:1 });
         }catch (error){
@@ -82,5 +81,16 @@ export class CoachInvitationController{
         }
     }
 
+    cancelInvitation = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+        try {
+            const student_id = req.student.id;
+            const coach_id = req.body.coach_id;
+
+            await this.coachInvitationService.removeInvitation(coach_id, student_id);
+            res.status(200).json({  message: 'cancel invitation', status:1 });
+        }catch (error){
+            next(error);
+        }
+    }
     
 }

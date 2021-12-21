@@ -45,7 +45,7 @@ export class CoachInvitationService{
             .from(CoachInvitation, "CoachInvitation")
             .innerJoin(Coach, "Coach", "CoachInvitation.coach_id = Coach.id")
             .where("CoachInvitation.student_id = :student_id", {student_id: student_id})
-            .andWhere("CoachInvitation.status = 'pendding'")
+            .andWhere("CoachInvitation.status = 'pending'")
             .getRawMany();
     }
 
@@ -59,7 +59,7 @@ export class CoachInvitationService{
             .execute();
     }
 
-    declineInvitation = async (coach_id, student_id) => {
+    removeInvitation = async (coach_id, student_id) => {
         await CoachInvitation.createQueryBuilder("coachInvitation")
             .delete()
             .where("coach_id = :coach_id", { coach_id: coach_id })
@@ -86,6 +86,6 @@ export class CoachInvitationService{
             .where("CoachInvitation.student_id = :student_id", {student_id: student_id})
             .andWhere("CoachInvitation.status = 'complete'")
             .orderBy("CoachInvitation.start_date", 'DESC')
-            .getRawOne();
+            .getRawMany();
     }
 }

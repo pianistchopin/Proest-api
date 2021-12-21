@@ -1,4 +1,5 @@
 import multer from "multer";
+import {RequestWithStudent} from "@interfaces/auth.interface";
 
 /**
  * @method isEmpty
@@ -26,7 +27,8 @@ const storage = multer.diskStorage({
     },
 
     filename: function (req: any, file: any, cb: any) {
-        console.log(file);
+        const student_id = req.student.id;
+        console.log(student_id);
         cb(null, Date.now() + ".jpg")
     }
 });

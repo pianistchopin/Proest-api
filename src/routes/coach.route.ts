@@ -34,7 +34,7 @@ class CoachRoute implements Routes{
         this.router.get(`${this.path}/get_my_student_and_invite`,CoachAuthMiddleware, this.coachController.getMyStudentAndInvite);
         this.router.post(`${this.path}/accept_invite`,CoachAuthMiddleware, this.coachInvitationController.accpetInvitation);
         this.router.post(`${this.path}/decline_invite`, CoachAuthMiddleware, this.coachInvitationController.declineInvitation);
-        this.router.post(`${this.path}/coach_manage_chat`,CoachAuthMiddleware, this.chatController.coachManageChat);
+        this.router.post(`${this.path}/get_coach_by_id`, this.coachController.findCoachById);
     }
 }
 

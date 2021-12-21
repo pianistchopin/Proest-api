@@ -30,7 +30,13 @@ export class StudentController {
         try {
             const id = req.student.id;
             const userData: UpdateStudentDto = JSON.parse(JSON.stringify(req.body));
-            userData.avatar = req.file.filename;
+            if(req.file){
+                console.log("exist");
+                userData.avatar = req.file.path;
+            }
+            else{
+                console.log("no exist");
+            }
             // callFirebaseApi(userData.fcm_token);
             const updateUserData: Student = await this.studentService.update(id, userData);
 
@@ -76,11 +82,11 @@ export class StudentController {
             const student_id = req.student.id;
 
             const my_coach: any = await this.coachInvitationService.findMyCoach(student_id);
-            const other_cocah: any = await this.coachService.findCoachOrderByRate();
+            const other_coach: any = await this.coachService.findCoachOrderByRate();
             
             const resData = {
                 my_coach : my_coach,
-                other_cocah : other_cocah
+                other_coach : other_coach
             }
             res.status(200).json({ data: resData, message: 'my coach and other', status:1 });
         }catch (error){
