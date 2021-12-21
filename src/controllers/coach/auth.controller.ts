@@ -16,6 +16,12 @@ class AuthController{
 
     constructor() {}
 
+    /**
+     * after register, login with same account and set access token
+     * @param req
+     * @param res
+     * @param next
+     */
     signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userData: SignUpUserDto  = req.body;
@@ -36,6 +42,12 @@ class AuthController{
         }
     }
 
+    /**
+     * when login, set access token
+     * @param req
+     * @param res
+     * @param next
+     */
     logIn = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userData: LoginUserDto = req.body;
@@ -56,6 +68,12 @@ class AuthController{
         }
     }
 
+    /**
+     * when log out , reset access_token
+     * @param req
+     * @param res
+     * @param next
+     */
     logOut = async (req: RequestWithCoach, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userData = req.coach;

@@ -55,8 +55,11 @@ class AuthService{
 
     public async logOut(userData){
         if(isEmpty(userData)) throw new HttpException(400, "You're not userData");
-        const users: Coach[] = await Coach.find();
 
+        userData.access_token = "";
+        await Coach.update(userData.id, userData);
+        
+        const users: Coach[] = await Coach.find();
         const findUser: Coach = users.find(user => user.email === userData.email && user.password === userData.password );
         if(!findUser) throw new HttpException(409, "You're not user");
 
