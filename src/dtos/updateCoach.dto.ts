@@ -45,7 +45,7 @@ export class UpdateCoachDto{
     access_token?: string;
 
     @IsString()
-    invitation_code?: string;
+    invitation_code?: number;
 
     @IsString()
     fcm_token?: string;

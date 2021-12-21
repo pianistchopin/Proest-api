@@ -48,8 +48,8 @@ export class Coach extends BaseEntity{
     @Column()
     access_token: string;
 
-    @Column()
-    invitation_code: string;
+    @Column({ type: "int" })
+    invitation_code: number;
 
     @Column()
     fcm_token: string;

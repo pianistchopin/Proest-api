@@ -56,10 +56,41 @@ export class CoachController {
         }
     }
 
+    generateInvitationCode = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
+        try {
+            
+            const coach_id = req.coach.id;
+            const coachData: Coach = req.coach
+            const code = this.createCode(1000, 9999);
+            const validate_code = await this.checkCodeValidation(code);
+            coachData.invitation_code = validate_code;
+            const updateUserData: Coach = await this.coachService.update(coach_id, coachData);
+
+            res.status(200).json({data: validate_code, message: "generate invitation code", status:1})
+        } catch (error) {
+            next(error);
+        }
+    }
+    
+    checkCodeValidation = async (code: number) => {
+        const coach_have_code: Coach[] = await this.coachService.findCoachByInviteCode(code);
+        if(coach_have_code.length){
+            let code_double = this.createCode(1000, 9999);
+            await this.checkCodeValidation(code_double);
+        }
+        return code;
+    }
+    
+    createCode = (min: number, max: number) => {
+        return Math.floor(
+            Math.random() * (max - min + 1) + min
+        );
+    }
+
     findCoachByPosition = async (req: Request, res: Response, next: NextFunction) =>{
         try{
             const positionId = Number(req.body.position);
-            const coaches: Coach[] = await this.coachService.findCoachByPsition(positionId);
+            const coaches: Coach[] = await this.coachService.findCoachByPosition(positionId);
 
             res.status(200).json({data: coaches, message: "coach list by position id", status:1})
         }catch (error){

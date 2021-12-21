@@ -17,7 +17,15 @@ export class CoachService{
         return await Coach.findOne(id);
     }
 
-    findCoachByPsition = async (positionId: number) => {
+    findCoachByInviteCode = async (invitation_code: number) => {
+        return await getRepository(Coach)
+            .createQueryBuilder()
+            .select("*")
+            .where("invitation_code = :invitation_code", {invitation_code: invitation_code })
+            .getRawMany();
+    } 
+
+    findCoachByPosition = async (positionId: number) => {
         return await getRepository(Coach)
             .createQueryBuilder()
             .select("*")

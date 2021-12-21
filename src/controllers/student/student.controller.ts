@@ -57,9 +57,9 @@ export class StudentController {
         }
     }
 
-    getMyCoachHistory = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+    getMyCoachHistory = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const student_id = req.student.id;
+            const student_id = req.body.student_id;
             const coach_history: any = await this.coachInvitationService.findCoachHistory(student_id);
 
             res.status(200).json({data: coach_history, message: 'my coach history', status: 1});
@@ -98,7 +98,7 @@ export class StudentController {
         try {
             const student = req.student;
             const position_id = student.position;
-            const recommend_coach: any = await this.coachService.findCoachByPsition(position_id);
+            const recommend_coach: any = await this.coachService.findCoachByPosition(position_id);
             res.status(200).json({ data: recommend_coach, message: 'recommend coach by top rating with same position', status:1 });
         }catch (error) {
             next(error);

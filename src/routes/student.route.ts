@@ -33,7 +33,7 @@ class StudentRoute implements Routes {
         this.router.post(`${this.path}/get_top_rate_coaches`,authMiddleware, this.studentController.getTopRateCoach);
         this.router.post(`${this.path}/get_recommend_coaches`,authMiddleware, this.studentController.getRecommendCoach);
         this.router.post(`${this.path}/get_my_coach`,authMiddleware, this.studentController.getMyCoach);
-        this.router.post(`${this.path}/get_my_history_coaches`,authMiddleware, this.studentController.getMyCoachHistory);
+        this.router.post(`${this.path}/get_history_coaches`, this.studentController.getMyCoachHistory);
         this.router.post(`${this.path}/invite_coach`,authMiddleware, this.coachInvitationController.inviteCoachFromStudent);
         this.router.post(`${this.path}/pending_coach`,authMiddleware, this.coachInvitationController.pendingCoach);
         this.router.post(`${this.path}/cancel_invite`,authMiddleware, this.coachInvitationController.cancelInvitation);
