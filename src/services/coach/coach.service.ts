@@ -22,7 +22,7 @@ export class CoachService{
             .createQueryBuilder()
             .select("*")
             .where("invitation_code = :invitation_code", {invitation_code: invitation_code })
-            .getRawMany();
+            .getRawOne();
     } 
 
     findCoachByPosition = async (positionId: number) => {

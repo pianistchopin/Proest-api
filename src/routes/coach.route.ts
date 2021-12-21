@@ -37,6 +37,7 @@ class CoachRoute implements Routes{
         this.router.post(`${this.path}/decline_invite`, CoachAuthMiddleware, this.coachInvitationController.declineInvitation);
         this.router.post(`${this.path}/get_coach_by_id`, this.coachController.findCoachById);
         this.router.post(`${this.path}/generate_invite_code`, CoachAuthMiddleware, this.coachController.generateInvitationCode);
+        this.router.post(`${this.path}/compare_invite_code`, this.coachController.compareInvitationCode);
     }
 }
 

@@ -9,6 +9,8 @@ import moment from "moment";
 import {CoachInvitationDto} from "@dtos/coachInvitation.dto";
 import {StudentService} from "@services/student/student.service";
 import {callFirebaseApi} from "@utils/fireBase.util";
+import {isEmpty} from "@utils/util";
+import {HttpException} from "@exceptions/HttpException";
 
 export class CoachController {
 
@@ -73,8 +75,8 @@ export class CoachController {
     }
     
     checkCodeValidation = async (code: number) => {
-        const coach_have_code: Coach[] = await this.coachService.findCoachByInviteCode(code);
-        if(coach_have_code.length){
+        const coach_have_code: Coach = await this.coachService.findCoachByInviteCode(code);
+        if(coach_have_code){
             let code_double = this.createCode(1000, 9999);
             await this.checkCodeValidation(code_double);
         }
@@ -85,6 +87,25 @@ export class CoachController {
         return Math.floor(
             Math.random() * (max - min + 1) + min
         );
+    }
+
+    compareInvitationCode = async (req: Request, res: Response, next: NextFunction) => {
+        try {
+            let success_result;
+            const invitation_code = req.body.invitation_code;
+            if (isEmpty(invitation_code)) throw new HttpException(200, "input invite code");
+            const coach_have_code: Coach = await this.coachService.findCoachByInviteCode(invitation_code);
+            if(coach_have_code){
+                success_result = "success";
+                coach_have_code.invitation_code = 0;
+                await this.coachService.update(coach_have_code.id, coach_have_code);
+            }else{
+                success_result = "fail";
+            }
+            res.status(200).json({data: success_result, message: "compare invite code result is " + success_result, status:1})
+        }catch (error) {
+            next(error)
+        }
     }
 
     findCoachByPosition = async (req: Request, res: Response, next: NextFunction) =>{
