@@ -1,5 +1,5 @@
 import multer from "multer";
-import {RequestWithStudent} from "@interfaces/auth.interface";
+import {RequestWithCoach, RequestWithStudent} from "@interfaces/auth.interface";
 
 /**
  * @method isEmpty
@@ -21,26 +21,28 @@ export const isEmpty = (value: string | number | object): boolean => {
     }
 };
 
-const storage = multer.diskStorage({
+const storage_student = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, './uploads/')
+        cb(null, './uploads/student')
     },
 
-    filename: function (req: any, file: any, cb: any) {
+    filename: function (req: RequestWithStudent, file: any, cb: any) {
         const student_id = req.student.id;
-        console.log(student_id);
-        cb(null, Date.now() + ".jpg")
+        cb(null, "student_" + student_id + ".jpg");
     }
 });
-const fileFilter = (req: any,file: any,cb: any) => {
-    if(file.mimetype === "image/jpg"  ||
-        file.mimetype ==="image/jpeg"  ||
-        file.mimetype ===  "image/png"){
 
-        cb(null, true);
-    }else{
-        cb(new Error("Image uploaded is not of type jpg/jpeg or png"),false);
+const storage_coach = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, './uploads/coach')
+    },
+
+    filename: function (req: RequestWithCoach, file: any, cb: any) {
+        const coach_id = req.coach.id;
+        cb(null, "coach_" + coach_id + ".jpg");
     }
-}
+});
 
-export const upload = multer({storage: storage, fileFilter : fileFilter});
+export const studentUpload = multer({storage: storage_student});
+
+export const coachUpload = multer({storage: storage_coach});

@@ -13,13 +13,21 @@ export class CoachInvitationController{
     public studentService = new StudentService();
     
     inviteCoachFromStudent = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
-
         try {
             const data: CoachInvitationDto = req.body;
             data.status = "pending";
             data.student_id = req.student.id;
-            const createdData =  await this.coachInvitationService.create(data);
-            res.status(200).json({  message: 'invite coach', status:1 });
+            
+            /**
+             * if student invite double to coach, only set one 
+             */
+            const invitationByStudentCoach = await this.coachInvitationService.getInvitationByStudentCoach(data.coach_id, data.student_id);
+            if(invitationByStudentCoach){
+                res.status(200).json({  message: 'already sent', status:1 });
+            }else {
+                const createdData =  await this.coachInvitationService.create(data);
+                res.status(200).json({  message: 'invite coach', status:1 });
+            }
         } catch (error){
             next(error);
         }
@@ -31,13 +39,12 @@ export class CoachInvitationController{
             const my_coach: any = await this.coachInvitationService.findPendingCoach(student_id);
 
             res.status(200).json({ data: my_coach, message: 'my coach', status:1 });
-            
         } catch (error){
             next(error);
         }
     }
 
-    accpetInvitation = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
+    acceptInvitation = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
         try {
             const coach_id = req.coach.id;
             const student_id = req.body.student_id;

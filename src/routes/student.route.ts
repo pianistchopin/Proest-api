@@ -8,7 +8,7 @@ import authMiddleware from "@middlewares/auth.middleware";
 import {StudentController} from "@controllers/student/student.controller";
 import {CoachInvitationController} from "@controllers/coachInvitation.controller"
 import multer from "multer";
-import {upload} from '@utils/util';
+import {studentUpload} from '@utils/util';
 import {ChatController} from "@controllers/chat.controller";
 
 
@@ -29,7 +29,7 @@ class StudentRoute implements Routes {
         this.router.post(`${this.path}/register`,validationMiddleware(SignUpUserDto, 'body'), this.authController.signUp);
         this.router.post(`${this.path}/login`,validationMiddleware(LoginUserDto, 'body'), this.authController.logIn);
         this.router.get(`${this.path}/logout`,authMiddleware, this.authController.logOut);
-        this.router.put(`${this.path}/update_profile`,[authMiddleware, upload.single("file")], this.studentController.update);
+        this.router.put(`${this.path}/update_profile`,[authMiddleware, studentUpload.single("file")], this.studentController.update);
         this.router.post(`${this.path}/get_top_rate_coaches`,authMiddleware, this.studentController.getTopRateCoach);
         this.router.post(`${this.path}/get_recommend_coaches`,authMiddleware, this.studentController.getRecommendCoach);
         this.router.post(`${this.path}/get_my_coach`,authMiddleware, this.studentController.getMyCoach);

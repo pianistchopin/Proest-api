@@ -32,7 +32,7 @@ export class StudentController {
             const userData: UpdateStudentDto = JSON.parse(JSON.stringify(req.body));
             if(req.file){
                 console.log("exist");
-                userData.avatar = req.file.path;
+                userData.avatar = "uploads/student/" + req.file.filename;
             }
             else{
                 console.log("no exist");

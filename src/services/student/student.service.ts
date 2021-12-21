@@ -19,10 +19,10 @@ export class StudentService{
     }
 
     update = async (id: number, updateStudentDto: UpdateStudentDto) => {
-        if (isEmpty(updateStudentDto)) throw new HttpException(400, "You're not userData");
+        if (isEmpty(updateStudentDto)) throw new HttpException(200, "You're not userData");
         
         const findStudent: Student = await Student.findOne(id);
-        if(!findStudent) throw new HttpException(409, "You're not user");
+        if(!findStudent) throw new HttpException(200, "You're not user");
 
         await Student.update(id, updateStudentDto);
         

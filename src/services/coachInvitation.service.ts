@@ -18,6 +18,15 @@ export class CoachInvitationService{
         const result:CoachInvitation = await CoachInvitation.save(coachInvitation);
         return result;
     }
+    
+    getInvitationByStudentCoach = async (coach_id:number, student_id: number) => {
+        return await CoachInvitation.createQueryBuilder("coachInvitation")
+            .select("*")
+            .where("coach_id = :coach_id", { coach_id: coach_id })
+            .andWhere("student_id = :student_id", { student_id: student_id })
+            .andWhere("status = 'pending'")
+            .getRawOne();
+    }
 
     getMyStudent = async (coach_id: Number) => {
         return await getManager().createQueryBuilder()

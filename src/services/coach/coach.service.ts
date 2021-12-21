@@ -7,21 +7,21 @@ import {getManager, getRepository} from "typeorm";
 
 export class CoachService{
     update = async (id: number, updateCoachDto: UpdateCoachDto) => {
-        if (isEmpty(updateCoachDto)) throw new HttpException(400, "You're not userData");
+        if (isEmpty(updateCoachDto)) throw new HttpException(200, "You're not userData");
 
         const findCoach: Coach = await Coach.findOne(id);
-        if(!findCoach) throw new HttpException(409, "You're not user");
+        if(!findCoach) throw new HttpException(200, "You're not user");
 
         await Coach.update(id, updateCoachDto);
 
         return await Coach.findOne(id);
     }
 
-    findCoachByPsition = async (posigionId: number) => {
+    findCoachByPsition = async (positionId: number) => {
         return await getRepository(Coach)
             .createQueryBuilder()
             .select("*")
-            .where("position = :position", {position: posigionId })
+            .where("position = :position", {position: positionId })
             .orderBy("rating", 'DESC')
             .getRawMany();
     }

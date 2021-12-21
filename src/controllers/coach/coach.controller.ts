@@ -20,10 +20,16 @@ export class CoachController {
         try {
             const id = req.coach.id;
             const userData: UpdateStudentDto = JSON.parse(JSON.stringify(req.body));
-            const updateUserData: Coach = await this.coachService.update(id, userData);
-            // const data = req.file;
-            // console.log(data);
             
+            if(req.file){
+                console.log("exist");
+                userData.avatar = "uploads/coach/" + req.file.filename;
+            }
+            else{
+                console.log("no exist");
+            }
+            
+            const updateUserData: Coach = await this.coachService.update(id, userData);
             res.status(200).json({ data: updateUserData, message: 'updated', status: 1 });
         }catch (error){
             next(error);
