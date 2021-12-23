@@ -32,6 +32,8 @@ const storage_student = multer.diskStorage({
     }
 });
 
+export const studentUpload = multer({storage: storage_student});
+
 const storage_coach = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, './uploads/coach')
@@ -42,7 +44,5 @@ const storage_coach = multer.diskStorage({
         cb(null, "coach_" + coach_id + ".jpg");
     }
 });
-
-export const studentUpload = multer({storage: storage_student});
 
 export const coachUpload = multer({storage: storage_coach});

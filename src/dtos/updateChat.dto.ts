@@ -1,4 +1,5 @@
 import {IsEmail, IsNumber, IsString} from "class-validator";
+import {Column, PrimaryGeneratedColumn} from "typeorm";
 
 export class UpdateChatDto {
 
@@ -15,16 +16,28 @@ export class UpdateChatDto {
     @IsNumber()
     coach_id: number;
 
-    @IsNumber()
-    last_message: string;
+    @IsString()
+    week_start_date: string;
 
     @IsString()
-    last_message_date: string;
+    week_end_date: string;
 
     @IsString()
-    read_status: string;
+    previous_goal_message: string;
 
-    @IsNumber()
-    student_sender: number;
-    
+    @IsString()
+    previous_goal_video: string;
+
+    @IsString()
+    today_goal_message: string;
+
+    @IsString()
+    today_goal_video: string;
+
+    @IsString()
+    coach_goal_message: string;
+
+    @IsString()
+    coach_goal_video: string;
+
 }
