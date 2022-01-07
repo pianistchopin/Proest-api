@@ -6,27 +6,55 @@ import {RequestWithCoach, RequestWithStudent} from "@interfaces/auth.interface";
 import moment from "moment";
 import {UpdateStudentDto} from "@dtos/updateStudent.dto";
 import {StudentService} from "@services/student/student.service";
+import {CoachService} from "@services/coach/coach.service";
 
 export class CoachInvitationController{
     
     public coachInvitationService = new CoachInvitationService();
     public studentService = new StudentService();
+    public coachService = new CoachService();
     
     inviteCoachFromStudent = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
         try {
-            const data: CoachInvitationDto = req.body;
+            const data: CoachInvitationDto = new CoachInvitationDto();
             data.status = "pending";
             data.student_id = req.student.id;
+            data.coach_id = req.body.coach_id;
+            data.invite_date = moment().format('YYYY-MM-DD');
             
-            /**
-             * if student invite double to coach, only set one 
-             */
-            const invitationByStudentCoach = await this.coachInvitationService.getInvitationByStudentCoach(data.coach_id, data.student_id);
-            if(invitationByStudentCoach){
-                res.status(200).json({  message: 'already sent', status:1 });
-            }else {
-                const createdData =  await this.coachInvitationService.create(data);
-                res.status(200).json({  message: 'invite coach', status:1 });
+            // overwrite invite from student to coach
+            const force = req.body.force;
+
+            const accept_data = await this.coachInvitationService.getInvitationByStudent(data.student_id, "accept");
+            const pending_data = await this.coachInvitationService.getInvitationByStudent(data.student_id, "pending");
+            
+            let flag_available_invite = false;
+            if(accept_data){
+                const start_date = accept_data.start_date;
+                const available_invite_date = moment(start_date).add(28, 'days').format("YYYY-MM-DD");
+                const today_date = moment().format('YYYY-MM-DD');
+                flag_available_invite = moment(today_date).isBefore(available_invite_date)
+            }
+            
+            if(accept_data && flag_available_invite){
+                const origin_coach = await this.coachService.findCoachById(accept_data.coach_id)
+                res.status(200).json({ data: origin_coach.user_name,  message: 'exist_accept_coach', status:0 });
+            }
+            else if(pending_data && data.coach_id != pending_data.coach_id && !force){
+                const previous_coach = await this.coachService.findCoachById(pending_data.coach_id)
+                res.status(200).json({data:previous_coach.user_name,  message: 'exist_pending_coach', status:0 });
+            }
+            else{
+                if(pending_data){
+                    await this.coachInvitationService.update(pending_data.id, data);
+                    const update_same_coach = await this.coachService.findCoachById(data.coach_id)
+                    res.status(200).json({data: update_same_coach.user_name,  message: 'update_same_coach', status:1 });
+                }
+                else{
+                    const createdData =  await this.coachInvitationService.create(data);
+                    const new_invite_coach = await this.coachService.findCoachById(data.coach_id)
+                    res.status(200).json({data: new_invite_coach.user_name,  message: 'new_invite', status:1 });
+                }
             }
         } catch (error){
             next(error);

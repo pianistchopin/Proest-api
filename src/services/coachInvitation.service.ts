@@ -4,11 +4,16 @@ import {getRepository, createQueryBuilder, getManager} from "typeorm";
 import {Student} from "@entity/student";
 import {Coach} from "@entity/coach";
 import moment from "moment";
+import {isEmpty} from "@utils/util";
+import {HttpException} from "@exceptions/HttpException";
 
 export class CoachInvitationService{
 
-    update = (id: number, coachInvitationDto: CoachInvitationDto) => {
+    update = async (id: number, coachInvitationDto: CoachInvitationDto) => {
 
+        if (isEmpty(coachInvitationDto)) throw new HttpException(200, "You're not userData");
+
+        await CoachInvitation.update(id, coachInvitationDto);
     }
 
     create = async (coachInvitationDto: CoachInvitationDto):Promise<CoachInvitation> => {
@@ -19,16 +24,15 @@ export class CoachInvitationService{
         return result;
     }
     
-    getInvitationByStudentCoach = async (coach_id:number, student_id: number) => {
+    getInvitationByStudent = async (student_id: number, status: string) => {
         return await CoachInvitation.createQueryBuilder("coachInvitation")
             .select("*")
-            .where("coach_id = :coach_id", { coach_id: coach_id })
-            .andWhere("student_id = :student_id", { student_id: student_id })
-            .andWhere("status = 'pending'")
+            .where("student_id = :student_id", { student_id: student_id })
+            .andWhere("status = :status", {status: status})
             .getRawOne();
     }
 
-    getMyStudent = async (coach_id: Number) => {
+    getMyStudent = async (coach_id: number) => {
         return await getManager().createQueryBuilder()
             .select("Student.*")
             .from(CoachInvitation, "CoachInvitation")
@@ -38,17 +42,18 @@ export class CoachInvitationService{
             .getRawMany();
     }
 
-    getPendingStudent = async (coach_id: Number) => {
+    getPendingStudent = async (coach_id: number, expire_pending_date: string) => {
         return await getManager().createQueryBuilder()
             .select("Student.*")
             .from(CoachInvitation, "CoachInvitation")
             .innerJoin(Student, "Student", "CoachInvitation.student_id = Student.id")
             .where("CoachInvitation.coach_id = :coach_id", {coach_id: coach_id})
             .andWhere("CoachInvitation.status = 'pending'")
+            .andWhere("CoachInvitation.invite_date >= :expire_pending_date", { expire_pending_date: expire_pending_date })
             .getRawMany();
     }
 
-    findPendingCoach = async (student_id: Number) => {
+    findPendingCoach = async (student_id: number) => {
         return await getManager().createQueryBuilder()
             .select("Coach.*")
             .from(CoachInvitation, "CoachInvitation")
@@ -77,7 +82,7 @@ export class CoachInvitationService{
             .execute();
     }
 
-    findMyCoach = async (student_id: Number) => {
+    findMyCoach = async (student_id: number) => {
         return await getManager().createQueryBuilder()
             .select("Coach.*")
             .from(CoachInvitation, "CoachInvitation")
@@ -87,7 +92,7 @@ export class CoachInvitationService{
             .getRawOne();
     }
 
-    findCoachHistory = async (student_id: Number) => {
+    findCoachHistory = async (student_id: number) => {
         return await getManager().createQueryBuilder()
             .select("Coach.*")
             .from(CoachInvitation, "CoachInvitation")

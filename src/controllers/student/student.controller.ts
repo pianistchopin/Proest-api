@@ -105,6 +105,16 @@ export class StudentController {
         }
     }
 
+    getCoachByPosition = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+        try {
+            const position_id = req.body.position;
+            const recommend_coach: any = await this.coachService.findCoachByPosition(position_id);
+            res.status(200).json({ data: recommend_coach, message: 'recommend coach by top rating with same position', status:1 });
+        }catch (error) {
+            next(error);
+        }
+    }
+
     findStudentById = async (req: Request, res: Response, next: NextFunction) => {
         try{
             const student_id = Number(req.body.student_id );

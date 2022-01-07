@@ -30,10 +30,10 @@ export class Coach extends BaseEntity{
     @Column()
     avatar: string;
 
-    @Column()
+    @Column("varchar", { length: 1000 })
     profile: string;
 
-    @Column()
+    @Column("varchar", { length: 1000 })
     specialty: string;
 
     @Column()
@@ -48,9 +48,15 @@ export class Coach extends BaseEntity{
     @Column()
     access_token: string;
 
-    @Column({ type: "int" })
-    invitation_code: number;
+    @Column()
+    invitation_code: string;
 
     @Column()
     fcm_token: string;
+    
+    @Column()
+    stripe_connect_id: string;
+
+    @Column()
+    stripe_customer_id: string;
 }

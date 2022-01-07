@@ -2,6 +2,7 @@ import {Chat} from "@entity/chat";
 import {getRepository} from "typeorm";
 import {UpdateChatDto} from "@dtos/updateChat.dto";
 import {Student} from "@entity/student";
+import {CoachInvitation} from "@entity/coachInvitation";
 
 export class ChatService{
 
@@ -25,8 +26,14 @@ export class ChatService{
             .getRawMany();
     }
     
-    update = async (chat_id: number, updateChatData: UpdateChatDto) => {
-        await Chat.update(chat_id, updateChatData);
+    update = async (cur_date: string, updateChatData: UpdateChatDto) => {
+        return await Chat.createQueryBuilder("Chat")
+            .update(updateChatData)
+            .where("coach_id = :coach_id", { coach_id: updateChatData.coach_id })
+            .andWhere("student_id = :student_id", { student_id: updateChatData.student_id })
+            .andWhere("week_start_date < :cur_date", { cur_date: cur_date })
+            .andWhere("week_end_date > :cur_date", { cur_date: cur_date })
+            .execute();
     }
     
     save = async (updateData: UpdateChatDto): Promise<Chat> => {

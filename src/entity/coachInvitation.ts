@@ -21,4 +21,10 @@ export class CoachInvitation extends BaseEntity {
     @Column()
     expire_date: string;
 
+    @Column()
+    invite_date: string;
+
+    @Column()
+    month_target: string;
+
 }

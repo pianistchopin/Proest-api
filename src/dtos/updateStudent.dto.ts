@@ -39,4 +39,10 @@ export class UpdateStudentDto {
 
     @IsString()
     fcm_token?: string;
+
+    @IsString()
+    stripe_connect_id?: string;
+
+    @IsString()
+    stripe_customer_id?: string;
 }

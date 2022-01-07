@@ -43,11 +43,11 @@ export class Student extends BaseEntity{
     expire_date: string;
 
     @Column()
-    today_schedule: string;
-
-    @Column()
-    week_schedule: string;
-
-    @Column()
     fcm_token: string;
+
+    @Column()
+    stripe_connect_id: string;
+
+    @Column()
+    stripe_customer_id: string;
 }

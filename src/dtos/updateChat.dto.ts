@@ -26,18 +26,18 @@ export class UpdateChatDto {
     previous_goal_message: string;
 
     @IsString()
-    previous_goal_video: string;
+    previous_file: string;
 
     @IsString()
     today_goal_message: string;
 
     @IsString()
-    today_goal_video: string;
+    today_file: string;
 
     @IsString()
     coach_goal_message: string;
 
     @IsString()
-    coach_goal_video: string;
+    coach_file: string;
 
 }

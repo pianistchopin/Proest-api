@@ -11,6 +11,9 @@ import {StudentService} from "@services/student/student.service";
 import {callFirebaseApi} from "@utils/fireBase.util";
 import {isEmpty} from "@utils/util";
 import {HttpException} from "@exceptions/HttpException";
+import {UpdateCoachDto} from "@dtos/updateCoach.dto";
+import fs from "fs";
+import ThumbnailGenerator from 'video-thumbnail-generator';
 
 export class CoachController {
 
@@ -21,16 +24,24 @@ export class CoachController {
     update = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
         try {
             const id = req.coach.id;
-            const userData: UpdateStudentDto = JSON.parse(JSON.stringify(req.body));
-            
-            if(req.file){
+            const userData: UpdateCoachDto = JSON.parse(JSON.stringify(req.body));
+
+            const file = JSON.parse(JSON.stringify(req.files));
+            if(file.file){
                 console.log("exist");
-                userData.avatar = "uploads/coach/" + req.file.filename;
+                userData.avatar = this.saveFileStorage(file.file[0], "coach", id, ".jpg");
             }
             else{
                 console.log("no exist");
             }
-            
+
+            /**
+             * upload video file 
+             */
+            if(file.profile_video){
+                userData.profile_video = this.saveFileStorage(file.profile_video[0], "profile_video", id, ".mp4");
+            }
+
             const updateUserData: Coach = await this.coachService.update(id, userData);
             res.status(200).json({ data: updateUserData, message: 'updated', status: 1 });
         }catch (error){
@@ -51,7 +62,9 @@ export class CoachController {
     getPendingStudents = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
         try {
             const coach_id = req.coach.id;
-            const pendingStudents: any = await this.coachInvitationService.getPendingStudent(coach_id);
+            const now_date = moment().format('YYYY-MM-DD');
+            const expire_pending_date = moment(now_date).subtract(5, 'days').format("YYYY-MM-DD");
+            const pendingStudents: any = await this.coachInvitationService.getPendingStudent(coach_id, expire_pending_date);
             res.status(200).json({ data: pendingStudents, message: 'pending students', status: 1 });
         }catch (error){
             next(error);
@@ -65,7 +78,7 @@ export class CoachController {
             const coachData: Coach = req.coach
             const code = this.createCode(1000, 9999);
             const validate_code = await this.checkCodeValidation(code);
-            coachData.invitation_code = validate_code;
+            coachData.invitation_code = validate_code.toString();
             const updateUserData: Coach = await this.coachService.update(coach_id, coachData);
 
             res.status(200).json({data: validate_code, message: "generate invitation code", status:1})
@@ -96,11 +109,11 @@ export class CoachController {
             if (isEmpty(invitation_code)) throw new HttpException(200, "input invite code");
             const coach_have_code: Coach = await this.coachService.findCoachByInviteCode(invitation_code);
             if(coach_have_code){
-                success_result = "success";
-                coach_have_code.invitation_code = 0;
+                success_result = true;
+                coach_have_code.invitation_code = "";
                 await this.coachService.update(coach_have_code.id, coach_have_code);
             }else{
-                success_result = "fail";
+                success_result = false;
             }
             res.status(200).json({data: success_result, message: "compare invite code result is " + success_result, status:1})
         }catch (error) {
@@ -128,5 +141,48 @@ export class CoachController {
         }catch (error){
             next(error);
         }
+    }
+
+    getFileExtension = (mime_type: string) =>{
+        let extArray = mime_type.split("/");
+        let extension = extArray[extArray.length - 1];
+
+        return extension;
+    }
+
+    saveFileStorage = (file: any, key_path, user_id, file_extension) => {
+        let saved_filename = key_path + "_" + user_id;
+
+
+        let file_path = 'uploads/coach/' + saved_filename + file_extension;
+        fs.rename('uploads/coach/' + file.filename, file_path, (err) => {
+            if (err) {console.log(err);return;}});
+
+
+        if(file_extension === "mp4" || file_extension === "avi"){
+
+            /**
+             * generate thumbnail
+             */
+            const tg = new ThumbnailGenerator({
+                sourcePath: file_path,
+                thumbnailPath: 'uploads/coach',
+            });
+
+            tg.generateOneByPercent(5)
+                .then((value) => {
+                    console.log(value);
+                    fs.rename('uploads/coach/' + value, 'uploads/coach/' + saved_filename +'.jpg', (err) => {
+                        if (err) {
+                            console.log(err);
+                            return;
+                        }
+                    })
+                }) ;
+
+            //    -----------------generate thumbnail
+        }
+
+        return file_path;
     }
 }

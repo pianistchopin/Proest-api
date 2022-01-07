@@ -10,6 +10,7 @@ import {CoachInvitationController} from "@controllers/coachInvitation.controller
 import multer from "multer";
 import {studentUpload} from '@utils/util';
 import {ChatController} from "@controllers/chat.controller";
+import path from "path";
 
 
 class StudentRoute implements Routes {
@@ -32,6 +33,7 @@ class StudentRoute implements Routes {
         this.router.put(`${this.path}/update_profile`,[authMiddleware, studentUpload.single("file")], this.studentController.update);
         this.router.post(`${this.path}/get_top_rate_coaches`,authMiddleware, this.studentController.getTopRateCoach);
         this.router.post(`${this.path}/get_recommend_coaches`,authMiddleware, this.studentController.getRecommendCoach);
+        this.router.post(`${this.path}/get_coaches_by_position`,authMiddleware, this.studentController.getCoachByPosition);
         this.router.post(`${this.path}/get_my_coach`,authMiddleware, this.studentController.getMyCoach);
         this.router.post(`${this.path}/get_history_coaches`, this.studentController.getMyCoachHistory);
         this.router.post(`${this.path}/invite_coach`,authMiddleware, this.coachInvitationController.inviteCoachFromStudent);
@@ -40,6 +42,9 @@ class StudentRoute implements Routes {
         this.router.post(`${this.path}/get_student_by_id`, this.studentController.findStudentById);
         
         this.router.post(`${this.path}/get_my_coach_and_other`,authMiddleware, this.studentController.getMyCoachAndOther);
+        this.router.get(`${this.path}/tos`, function(req, res) {
+            res.sendFile(path.join(__dirname, '../tos/student_tos.html'));
+        });
         
     }
 }

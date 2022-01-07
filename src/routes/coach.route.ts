@@ -11,6 +11,7 @@ import {StudentController} from "@controllers/student/student.controller";
 import {coachUpload} from '@utils/util';
 import authMiddleware from "@middlewares/auth.middleware";
 import {ChatController} from "@controllers/chat.controller";
+import path from "path";
 
 class CoachRoute implements Routes{
     path: string = "/coach";
@@ -28,8 +29,8 @@ class CoachRoute implements Routes{
     private initializeRoutes = () => {
         this.router.post(`${this.path}/register`,validationMiddleware(SignUpUserDto, 'body'), this.authController.signUp);
         this.router.post(`${this.path}/login`,validationMiddleware(LoginUserDto, 'body'), this.authController.logIn);
-        this.router.get(`${this.path}/logout`,CoachAuthMiddleware, this.authController.logOut);
-        this.router.put(`${this.path}/update_profile`,[CoachAuthMiddleware, coachUpload.single("file")], this.coachController.update);
+        this.router.get(`${this.path}/logout`,CoachAuthMiddleware, this.authController.logOut); 
+        this.router.put(`${this.path}/update_profile`,[CoachAuthMiddleware, coachUpload.fields([{name: 'file'}, {name: 'profile_video'}])], this.coachController.update);
         this.router.post(`${this.path}/get_my_students`,CoachAuthMiddleware, this.coachController.getMyStudents);
         this.router.post(`${this.path}/get_pending_students`,CoachAuthMiddleware, this.coachController.getPendingStudents);
         
@@ -38,6 +39,9 @@ class CoachRoute implements Routes{
         this.router.post(`${this.path}/get_coach_by_id`, this.coachController.findCoachById);
         this.router.post(`${this.path}/generate_invite_code`, CoachAuthMiddleware, this.coachController.generateInvitationCode);
         this.router.post(`${this.path}/compare_invite_code`, this.coachController.compareInvitationCode);
+        this.router.get(`${this.path}/tos`, function(req, res) {
+            res.sendFile(path.join(__dirname, '../tos/coach_tos.html'));
+        });
     }
 }
 

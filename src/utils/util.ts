@@ -40,8 +40,14 @@ const storage_coach = multer.diskStorage({
     },
 
     filename: function (req: RequestWithCoach, file: any, cb: any) {
-        const coach_id = req.coach.id;
-        cb(null, "coach_" + coach_id + ".jpg");
+        // const coach_id = req.coach.id;
+        // cb(null, "coach_" + coach_id + ".jpg");
+
+        let extArray = file.mimetype.split("/");
+        let extension = extArray[extArray.length - 1];
+
+        let fieldname = file.fieldname;
+        cb(null, Date.now() + "_" +fieldname + "." + extension);
     }
 });
 

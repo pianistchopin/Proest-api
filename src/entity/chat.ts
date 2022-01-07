@@ -25,18 +25,21 @@ export class Chat extends BaseEntity{
     previous_goal_message: string;
 
     @Column()
-    previous_goal_video: string;
+    previous_file: string;
 
     @Column()
     today_goal_message: string;
 
     @Column()
-    today_goal_video: string;
+    today_file: string;
 
     @Column()
     coach_goal_message: string;
 
     @Column()
-    coach_goal_video: string;
+    coach_file: string;
+
+    @Column()
+    week_target: string;
 
 }

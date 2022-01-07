@@ -45,8 +45,15 @@ export class UpdateCoachDto{
     access_token?: string;
 
     @IsString()
-    invitation_code?: number;
+    invitation_code?: string;
 
     @IsString()
     fcm_token?: string;
+
+    @IsString()
+    stripe_connect_id?: string;
+
+    @IsString()
+    stripe_customer_id?: string;
+
 }

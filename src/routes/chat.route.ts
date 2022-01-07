@@ -19,20 +19,23 @@ export class ChatRoute implements Routes {
 
     storage = multer.diskStorage({
         destination: function (req, file, cb) {
-            cb(null, './uploads/student')
+            cb(null, './uploads/chat')
         },
 
         filename: function (req: Request, file: any, cb: any) {
+            
             let extArray = file.mimetype.split("/");
             let extension = extArray[extArray.length - 1];
-            cb(null, Date.now() + "." + extension);
+            
+            let fieldname = file.fieldname;
+            cb(null, Date.now() + "_" +fieldname + "." + extension);
         }
     });
 
     upload = multer({storage: this.storage});
     
     private initializeRoutes = () => {
-        this.router.get(`${this.path}/manageChat`, this.upload.fields([{
+        this.router.put(`${this.path}/manageChat/:cur_date`, this.upload.fields([{
             name: 'previous_file', maxCount: 1
         }, {
             name: 'today_file', maxCount: 1

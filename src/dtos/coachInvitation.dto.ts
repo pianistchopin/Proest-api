@@ -16,4 +16,7 @@ export class CoachInvitationDto{
 
     @IsString()
     expire_date: string;
+
+    @IsString()
+    invite_date: string;
 }
