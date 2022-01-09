@@ -25,15 +25,25 @@ export class ChatService{
             .where("student_id = :student_id", {student_id: student_id })
             .getRawMany();
     }
-    
-    update = async (cur_date: string, updateChatData: UpdateChatDto) => {
+
+    updateChatByCurDate = async (cur_date: string, student_id, coach_id, updateChatData: UpdateChatDto) => {
         return await Chat.createQueryBuilder("Chat")
             .update(updateChatData)
-            .where("coach_id = :coach_id", { coach_id: updateChatData.coach_id })
-            .andWhere("student_id = :student_id", { student_id: updateChatData.student_id })
-            .andWhere("week_start_date < :cur_date", { cur_date: cur_date })
-            .andWhere("week_end_date > :cur_date", { cur_date: cur_date })
+            .where("coach_id = :coach_id", { coach_id: coach_id })
+            .andWhere("student_id = :student_id", { student_id: student_id })
+            .andWhere("week_start_date <= :cur_date", { cur_date: cur_date })
+            .andWhere("week_end_date >= :cur_date", { cur_date: cur_date })
             .execute();
+    }
+
+    getUpdatedCurDateRow = async (cur_date: string, student_id, coach_id) => {
+        return await getRepository(Chat)
+            .createQueryBuilder()
+            .where("student_id = :student_id", {student_id: student_id })
+            .where("coach_id = :coach_id", {coach_id: coach_id })
+            .andWhere("week_start_date <= :cur_date", { cur_date: cur_date })
+            .andWhere("week_end_date >= :cur_date", { cur_date: cur_date })
+            .getOne();
     }
     
     save = async (updateData: UpdateChatDto): Promise<Chat> => {

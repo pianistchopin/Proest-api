@@ -22,24 +22,44 @@ export class Chat extends BaseEntity{
     week_end_date: string;
 
     @Column()
-    previous_goal_message: string;
+    previous_student_message: string;
 
     @Column()
-    previous_file: string;
+    previous_student_file: string;
 
     @Column()
-    today_goal_message: string;
+    previous_student_file_thumb: string;
 
     @Column()
-    today_file: string;
+    previous_coach_message: string;
 
     @Column()
-    coach_goal_message: string;
+    previous_coach_file: string;
 
     @Column()
-    coach_file: string;
+    previous_coach_file_thumb: string;
+
+    @Column()
+    week_student_message: string;
+
+    @Column()
+    week_student_file: string;
+
+    @Column()
+    week_student_file_thumb: string;
+
+    @Column()
+    week_coach_message: string;
+
+    @Column()
+    week_coach_file: string;
+
+    @Column()
+    week_coach_file_thumb: string;
 
     @Column()
     week_target: string;
 
+    @Column()
+    invitation_id: number;
 }

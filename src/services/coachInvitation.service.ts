@@ -23,6 +23,25 @@ export class CoachInvitationService{
         const result:CoachInvitation = await CoachInvitation.save(coachInvitation);
         return result;
     }
+
+    updateMonthTarget = async (student_id: number, coachInvitationDto: CoachInvitationDto) => {
+
+        return await CoachInvitation.createQueryBuilder("coachInvitation")
+            .update(coachInvitationDto)
+            .andWhere("student_id = :student_id", { student_id: student_id })
+            .andWhere("status = 'accept'")
+            .execute();
+    }
+
+    getCurrentAcceptEnable = async (student_id: number, current_date: string) => {
+        return await CoachInvitation.createQueryBuilder("coachInvitation")
+            .select("*")
+            .where("student_id = :student_id", { student_id: student_id })
+            .andWhere("status = 'accept'")
+            .andWhere("start_date <= :current_date", { current_date: current_date })
+            .andWhere("expire_date >= :current_date", { current_date: current_date })
+            .getRawOne();
+    }
     
     getInvitationByStudent = async (student_id: number, status: string) => {
         return await CoachInvitation.createQueryBuilder("coachInvitation")
@@ -64,13 +83,22 @@ export class CoachInvitationService{
     }
 
     acceptInvitation = async (coachInvitationDto: CoachInvitationDto, coach_id, student_id) => {
-        
         return await CoachInvitation.createQueryBuilder("coachInvitation")
             .update(coachInvitationDto)
             .where("coach_id = :coach_id", { coach_id: coach_id })
             .andWhere("student_id = :student_id", { student_id: student_id })
             .andWhere("status = 'pending'")
             .execute();
+    }
+
+    getAcceptRow = async (coach_id, student_id): Promise<CoachInvitation> => {
+        return await getRepository(CoachInvitation)
+            .createQueryBuilder()
+            .select("*")
+            .where("coach_id = :coach_id", { coach_id: coach_id })
+            .andWhere("student_id = :student_id", { student_id: student_id })
+            .andWhere("status = 'accept'")
+            .getRawOne();
     }
 
     removeInvitation = async (coach_id, student_id) => {

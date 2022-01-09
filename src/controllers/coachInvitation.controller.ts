@@ -7,12 +7,15 @@ import moment from "moment";
 import {UpdateStudentDto} from "@dtos/updateStudent.dto";
 import {StudentService} from "@services/student/student.service";
 import {CoachService} from "@services/coach/coach.service";
+import {UpdateChatDto} from "@dtos/updateChat.dto";
+import {ChatService} from "@services/chat.service";
 
 export class CoachInvitationController{
     
     public coachInvitationService = new CoachInvitationService();
     public studentService = new StudentService();
     public coachService = new CoachService();
+    public chatService = new ChatService();
     
     inviteCoachFromStudent = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
         try {
@@ -87,7 +90,11 @@ export class CoachInvitationController{
             coachInvitationDto.status = "accept";
             coachInvitationDto.start_date = start_date;
             coachInvitationDto.expire_date = expire_date;
-            await this.coachInvitationService.acceptInvitation(coachInvitationDto, coach_id, student_id);
+             await this.coachInvitationService.acceptInvitation(coachInvitationDto, coach_id, student_id);
+
+            const accept_invitation_data = await this.coachInvitationService.getAcceptRow(coach_id, student_id);
+            console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+            console.log(accept_invitation_data);
 
             /**
              * set expire_date and coach_id of student table
@@ -97,6 +104,42 @@ export class CoachInvitationController{
             studentDto.expire_date = expire_date;
             await this.studentService.update(student_id, studentDto);
 
+            /**
+             * add 4 times chat room
+             */
+            const chatDto = new UpdateChatDto();
+            chatDto.student_id = student_id;
+            chatDto.coach_id = coach_id;
+            chatDto.invitation_id = accept_invitation_data.id;
+            
+            let month_end_date = moment(start_date).add(1, 'M').format("YYYY-MM-DD");
+            
+            // 1 week
+            let week_1_start_date = start_date;
+            let week_1_end_date = moment(week_1_start_date).add(7, 'days').format("YYYY-MM-DD");
+            chatDto.week_start_date = week_1_start_date;
+            chatDto.week_end_date = week_1_end_date;
+            await this.chatService.save(chatDto);
+            
+            // 2 week
+            let week_2_start_date = moment(week_1_end_date).add(1, 'days').format("YYYY-MM-DD");
+            let week_2_end_date = moment(week_2_start_date).add(7, 'days').format("YYYY-MM-DD");
+            chatDto.week_start_date = week_1_end_date;
+            chatDto.week_end_date = week_2_end_date;
+            await this.chatService.save(chatDto);
+
+            // 3 week
+            let week_3_start_date = moment(week_2_end_date).add(1, 'days').format("YYYY-MM-DD");
+            let week_3_end_date = moment(week_3_start_date).add(7, 'days').format("YYYY-MM-DD");
+            chatDto.week_start_date = week_3_start_date;
+            chatDto.week_end_date = week_3_end_date;
+            await this.chatService.save(chatDto);
+
+            // 4 week
+            chatDto.week_start_date = moment(week_3_end_date).add(1, 'days').format("YYYY-MM-DD");
+            chatDto.week_end_date = month_end_date;
+            await this.chatService.save(chatDto);
+            
             res.status(200).json({  message: 'accept invitation', status:1 });
         }catch (error){
             next(error);
@@ -124,6 +167,37 @@ export class CoachInvitationController{
             await this.coachInvitationService.removeInvitation(coach_id, student_id);
             res.status(200).json({  message: 'cancel invitation', status:1 });
         }catch (error){
+            next(error);
+        }
+    }
+    
+    updateMonthTarget = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+        try {
+            const student_id = req.student.id;
+            const month_target = req.body.month_target;
+            const coachInvitationDto = new CoachInvitationDto();
+            coachInvitationDto.month_target = month_target;
+
+            await this.coachInvitationService.updateMonthTarget(student_id, coachInvitationDto);
+            
+            res.status(200).json({  message: 'update month target', status:1 });
+        }catch (error){
+            next(error);
+        }
+    }
+
+    getMonthTarget = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+        try {
+            const student_id = req.student.id;
+            const cur_date = req.body.date;
+            const current_accept_enable_row = await this.coachInvitationService.getCurrentAcceptEnable(student_id, cur_date);
+
+            if(current_accept_enable_row)
+                res.status(200).json({data: current_accept_enable_row, message: 'month target data', status: 1});
+            else{
+                res.status(200).json({message: 'no data', status: 0});
+            }
+        } catch (error) {
             next(error);
         }
     }

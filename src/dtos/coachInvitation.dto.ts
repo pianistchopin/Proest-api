@@ -19,4 +19,7 @@ export class CoachInvitationDto{
 
     @IsString()
     invite_date: string;
+
+    @IsString()
+    month_target: string;
 }

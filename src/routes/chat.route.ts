@@ -8,7 +8,7 @@ import multer from "multer";
 import {RequestWithStudent} from "@interfaces/auth.interface";
 
 export class ChatRoute implements Routes {
-    path: string = "/chat";
+    path: string = "/message";
     router: Router = Router();
 
     chatController = new ChatController();
@@ -35,12 +35,16 @@ export class ChatRoute implements Routes {
     upload = multer({storage: this.storage});
     
     private initializeRoutes = () => {
-        this.router.put(`${this.path}/manageChat/:cur_date`, this.upload.fields([{
-            name: 'previous_file', maxCount: 1
+        this.router.put(`${this.path}/update_message/:date`, this.upload.fields([{
+            name: 'previous_student_file', maxCount: 1
         }, {
-            name: 'today_file', maxCount: 1
+            name: 'previous_coach_file', maxCount: 1
         },{
-            name: 'coach_file', maxCount: 1
+            name: 'week_student_file', maxCount: 1
+        },{
+            name: 'week_coach_file', maxCount: 1
         }]), this.chatController.manageChat);
+
+        this.router.post(`${this.path}/get_message`, this.chatController.getMessage);
     }
 }

@@ -16,32 +16,62 @@ export class ChatController{
     
     manageChat = async (req: Request, res: Response, next: NextFunction) => {
         try {
-            const cur_date = req.params.cur_date;
+            const cur_date = req.params.date;
             const data: UpdateChatDto = JSON.parse(JSON.stringify(req.body));
             const student_id = data.student_id;
             const coach_id = data.student_id;
             
             const file = JSON.parse(JSON.stringify(req.files));
-            console.log(file);
             
-            
-            if(file.previous_file){
-                data.previous_file = this.saveFileStorage(file.previous_file[0], "previous_file", student_id);
+            if(file.previous_student_file){
+                let save_file = this.saveFileStorage(file.previous_student_file[0], "previous_student_file", student_id);
+                data.previous_student_file = save_file.file_path;
+                data.previous_student_file_thumb = save_file.file_thumb;
             }
             
-            if(file.today_file){
-                data.today_file = this.saveFileStorage(file.today_file[0], "today_file", student_id);
+            if(file.previous_coach_file){
+                let save_file = this.saveFileStorage(file.previous_coach_file[0], "previous_coach_file", coach_id);
+                data.previous_coach_file = save_file.file_path;
+                data.previous_coach_file_thumb = save_file.file_thumb;
             }
 
-            if(file.coach_file){
-                data.coach_file = this.saveFileStorage(file.coach_file[0], "coach_file", coach_id);
+            if(file.week_student_file){
+                let save_file = this.saveFileStorage(file.week_student_file[0], "week_student_file", student_id);
+                data.week_student_file = save_file.file_path;
+                data.week_student_file_thumb = save_file.file_thumb;
             }
-            await this.chatService.update(cur_date, data);
+
+            if(file.week_coach_file){
+                let save_file = this.saveFileStorage(file.week_coach_file[0], "week_coach_file", coach_id);
+                data.week_coach_file = save_file.file_path;
+                data.week_coach_file_thumb = save_file.file_thumb;
+            }
+
+            await this.chatService.updateChatByCurDate(cur_date, student_id, coach_id, data);
+            const updatedRow = await this.chatService.getUpdatedCurDateRow(cur_date, student_id, coach_id);
             
-            res.status(200).json({ data: "aa", message: 'chat history', status: 1});
+            if(updatedRow)
+                res.status(200).json({ data: updatedRow, message: 'updated message row', status: 1});
+            else
+                res.status(200).json({ message: 'No data', status: 0});
+            
         }catch (error){
             next(error)
         }
+    }
+
+    getMessage = async (req: Request, res: Response, next: NextFunction) => {
+        const cur_date = req.body.date;
+        const student_id = req.body.student_id;
+        const coach_id = req.body.student_id;
+        
+        
+        const updatedRow = await this.chatService.getUpdatedCurDateRow(cur_date, student_id, coach_id);
+
+        if(updatedRow)
+            res.status(200).json({ data: updatedRow, message: 'message from student_id, coach_id, date', status: 1});
+        else
+            res.status(200).json({ message: 'No data', status: 0});
     }
     
     getFileExtension = (mime_type: string) =>{
@@ -61,6 +91,7 @@ export class ChatController{
             if (err) {console.log(err);return;}});
 
 
+        let file_thumb = "";
         if(file_extension === "mp4" || file_extension === "avi"){
             
             /**
@@ -70,10 +101,10 @@ export class ChatController{
                 sourcePath: file_path,
                 thumbnailPath: 'uploads/chat',
             });
-
+            
+            file_thumb = 'uploads/chat/' + saved_filename +'.jpg';
             tg.generateOneByPercent(90)
                 .then((value) => {
-                    console.log(value);
                     fs.rename('uploads/chat/' + value, 'uploads/chat/' + saved_filename +'.jpg', (err) => {
                         if (err) {
                             console.log(err);
@@ -85,7 +116,7 @@ export class ChatController{
         //    -----------------generate thumbnail
         }
         
-        return file_path;
+        return {file_path: file_path, file_thumb: file_thumb};
     }
   
 }

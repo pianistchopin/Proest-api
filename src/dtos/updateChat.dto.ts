@@ -23,21 +23,44 @@ export class UpdateChatDto {
     week_end_date: string;
 
     @IsString()
-    previous_goal_message: string;
+    previous_student_message: string;
 
     @IsString()
-    previous_file: string;
+    previous_student_file: string;
 
     @IsString()
-    today_goal_message: string;
+    previous_student_file_thumb: string;
 
     @IsString()
-    today_file: string;
+    previous_coach_message: string;
 
     @IsString()
-    coach_goal_message: string;
+    previous_coach_file: string;
 
     @IsString()
-    coach_file: string;
+    previous_coach_file_thumb: string;
 
+    @IsString()
+    week_student_message: string;
+
+    @IsString()
+    week_student_file: string;
+
+    @IsString()
+    week_student_file_thumb: string;
+
+    @IsString()
+    week_coach_message: string;
+
+    @IsString()
+    week_coach_file: string;
+
+    @IsString()
+    week_coach_file_thumb: string;
+
+    @IsString()
+    week_target: string;
+
+    @IsNumber()
+    invitation_id: number;
 }
