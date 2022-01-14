@@ -19,7 +19,7 @@ export class ChatController{
             const cur_date = req.params.date;
             const data: UpdateChatDto = JSON.parse(JSON.stringify(req.body));
             const student_id = data.student_id;
-            const coach_id = data.student_id;
+            const coach_id = data.coach_id;
             
             const file = JSON.parse(JSON.stringify(req.files));
             
@@ -63,7 +63,7 @@ export class ChatController{
     getMessage = async (req: Request, res: Response, next: NextFunction) => {
         const cur_date = req.body.date;
         const student_id = req.body.student_id;
-        const coach_id = req.body.student_id;
+        const coach_id = req.body.coach_id;
         
         
         const updatedRow = await this.chatService.getUpdatedCurDateRow(cur_date, student_id, coach_id);
@@ -118,5 +118,7 @@ export class ChatController{
         
         return {file_path: file_path, file_thumb: file_thumb};
     }
+    
+    
   
 }

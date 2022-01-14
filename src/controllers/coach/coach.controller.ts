@@ -14,12 +14,14 @@ import {HttpException} from "@exceptions/HttpException";
 import {UpdateCoachDto} from "@dtos/updateCoach.dto";
 import fs from "fs";
 import ThumbnailGenerator from 'video-thumbnail-generator';
+import {ChatService} from "@services/chat.service";
 
 export class CoachController {
 
     public coachService = new CoachService();
     public studentService = new StudentService();
     public coachInvitationService = new CoachInvitationService();
+    public chatService = new ChatService();
 
     update = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
         try {
@@ -29,7 +31,7 @@ export class CoachController {
             const file = JSON.parse(JSON.stringify(req.files));
             if(file.file){
                 console.log("exist");
-                userData.avatar = this.saveFileStorage(file.file[0], "coach", id, ".jpg");
+                userData.avatar = this.saveFileStorage(file.file[0], "coach", id, ".jpg").file_path;
             }
             else{
                 console.log("no exist");
@@ -39,7 +41,9 @@ export class CoachController {
              * upload video file 
              */
             if(file.profile_video){
-                userData.profile_video = this.saveFileStorage(file.profile_video[0], "profile_video", id, ".mp4");
+                const file_origin =  this.saveFileStorage(file.profile_video[0], "profile_video", id, ".mp4");
+                userData.profile_video = file_origin.file_path;
+                userData.profile_video_thumb = file_origin.file_thumb;
             }
 
             const updateUserData: Coach = await this.coachService.update(id, userData);
@@ -150,6 +154,35 @@ export class CoachController {
         return extension;
     }
 
+    getCoachVideos = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
+        let video_data = [];
+        const coach_id = req.coach.id;
+        const chat_rows = await this.chatService.getCoachChatHistory(coach_id);
+       
+        chat_rows.forEach(function(chat) {
+            let previous_file;
+            
+            if(chat.previous_coach_file){
+                previous_file = {
+                    file: chat.previous_coach_file,
+                    file_thumb: chat.previous_coach_file_thumb
+                }
+                video_data.push(previous_file);
+            }
+            
+            let week_file;
+            if(chat.week_coach_file){
+                week_file = {
+                    file: chat.week_coach_file,
+                    file_thumb: chat.week_coach_file_thumb
+                }
+                video_data.push(week_file);
+            }
+        });
+
+        res.status(200).json({data: video_data, message: "video files and thumbs", status:1})
+    }
+
     saveFileStorage = (file: any, key_path, user_id, file_extension) => {
         let saved_filename = key_path + "_" + user_id;
 
@@ -158,9 +191,10 @@ export class CoachController {
         fs.rename('uploads/coach/' + file.filename, file_path, (err) => {
             if (err) {console.log(err);return;}});
 
-
-        if(file_extension === "mp4" || file_extension === "avi"){
-
+        var file_thumb = "";
+        if(file_extension === ".mp4" || file_extension === ".avi"){
+            file_thumb = 'uploads/coach/' + saved_filename +'.jpg';
+            
             /**
              * generate thumbnail
              */
@@ -182,7 +216,6 @@ export class CoachController {
 
             //    -----------------generate thumbnail
         }
-
-        return file_path;
+        return {file_path: file_path, file_thumb: file_thumb};
     }
 }

@@ -201,5 +201,21 @@ export class CoachInvitationController{
             next(error);
         }
     }
-    
+
+    getMonthTargetFromCoach = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
+        try {
+            const student_id = req.body.student_id;
+            const coach_id = req.coach.id;
+            const cur_date = req.body.date;
+            const current_row = await this.coachInvitationService.getCurrentMonthTarge(student_id, coach_id, cur_date);
+
+            if(current_row)
+                res.status(200).json({data: current_row, message: 'month target data ', status: 1});
+            else{
+                res.status(200).json({message: 'no data', status: 0});
+            }
+        } catch (error) {
+            next(error);
+        }
+    }
 }

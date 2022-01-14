@@ -40,6 +40,9 @@ export class Coach extends BaseEntity{
     profile_video: string;
 
     @Column()
+    profile_video_thumb: string;
+
+    @Column()
     payment: string;
 
     @Column({ type: "float" })

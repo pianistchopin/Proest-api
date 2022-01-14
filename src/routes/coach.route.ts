@@ -42,6 +42,8 @@ class CoachRoute implements Routes{
         this.router.get(`${this.path}/tos`, function(req, res) {
             res.sendFile(path.join(__dirname, '../tos/coach_tos.html'));
         });
+        this.router.post(`${this.path}/get_coach_videos`, CoachAuthMiddleware, this.coachController.getCoachVideos);
+        this.router.post(`${this.path}/get_month_target`,CoachAuthMiddleware , this.coachInvitationController.getMonthTargetFromCoach);
     }
 }
 

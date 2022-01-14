@@ -36,6 +36,9 @@ export class UpdateCoachDto{
     profile_video?: string;
 
     @IsString()
+    profile_video_thumb?: string;
+
+    @IsString()
     payment?: string;
 
     @IsString()

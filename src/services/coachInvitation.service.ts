@@ -42,6 +42,16 @@ export class CoachInvitationService{
             .andWhere("expire_date >= :current_date", { current_date: current_date })
             .getRawOne();
     }
+
+    getCurrentMonthTarge = async (student_id: number, coach_id:number, current_date: string) => {
+        return await CoachInvitation.createQueryBuilder("coachInvitation")
+            .select("*")
+            .where("student_id = :student_id", { student_id: student_id })
+            .andWhere("coach_id = :coach_id", { coach_id: coach_id })
+            .andWhere("start_date <= :current_date", { current_date: current_date })
+            .andWhere("expire_date >= :current_date", { current_date: current_date })
+            .getRawOne();
+    }
     
     getInvitationByStudent = async (student_id: number, status: string) => {
         return await CoachInvitation.createQueryBuilder("coachInvitation")

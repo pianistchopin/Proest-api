@@ -19,6 +19,13 @@ export class ChatService{
             .getOne();
     }
 
+    getCoachChatHistory = async (coach_id: number) => {
+        return await getRepository(Chat)
+            .createQueryBuilder()
+            .where("coach_id = :coach_id", {coach_id: coach_id })
+            .getMany();
+    }
+
     getStudentChatHistory = async (student_id: number) => {
         return await getRepository(Chat)
             .createQueryBuilder()
@@ -40,7 +47,7 @@ export class ChatService{
         return await getRepository(Chat)
             .createQueryBuilder()
             .where("student_id = :student_id", {student_id: student_id })
-            .where("coach_id = :coach_id", {coach_id: coach_id })
+            .andWhere("coach_id = :coach_id", {coach_id: coach_id })
             .andWhere("week_start_date <= :cur_date", { cur_date: cur_date })
             .andWhere("week_end_date >= :cur_date", { cur_date: cur_date })
             .getOne();
