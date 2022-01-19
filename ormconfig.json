@@ -1,6 +1,6 @@
 {
   "type": "mysql",
-  "host": "localhost",
+  "host": "mysql154.phy.lolipop.lan",
   "port": 3306,
   "username": "root",
   "password": "",
