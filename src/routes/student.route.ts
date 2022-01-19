@@ -1,15 +1,15 @@
 import {Router} from "express";
-import { Routes } from "@interfaces/routes.interface";
-import AuthController from "@controllers/student/auth.controller"
-import validationMiddleware from "@middlewares/validation.middleware";
-import {LoginUserDto} from "@dtos/loginUser.dto";
-import {SignUpUserDto} from "@dtos/signUpUser.dto";
-import authMiddleware from "@middlewares/auth.middleware";
-import {StudentController} from "@controllers/student/student.controller";
-import {CoachInvitationController} from "@controllers/coachInvitation.controller"
+import { Routes } from "../interfaces/routes.interface";
+import AuthController from "../controllers/student/auth.controller"
+import validationMiddleware from "../middlewares/validation.middleware";
+import {LoginUserDto} from "../dtos/loginUser.dto";
+import {SignUpUserDto} from "../dtos/signUpUser.dto";
+import authMiddleware from "../middlewares/auth.middleware";
+import {StudentController} from "../controllers/student/student.controller";
+import {CoachInvitationController} from "../controllers/coachInvitation.controller"
 import multer from "multer";
-import {studentUpload} from '@utils/util';
-import {ChatController} from "@controllers/chat.controller";
+import {studentUpload} from '../utils/util';
+import {ChatController} from "../controllers/chat.controller";
 import path from "path";
 
 

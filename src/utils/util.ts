@@ -1,5 +1,5 @@
 import multer from "multer";
-import {RequestWithCoach, RequestWithStudent} from "@interfaces/auth.interface";
+import {RequestWithCoach, RequestWithStudent} from "../interfaces/auth.interface";
 
 /**
  * @method isEmpty

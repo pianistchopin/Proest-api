@@ -1,6 +1,6 @@
 import { Request } from "express";
-import {Coach} from "@entity/coach";
-import {Student} from "@entity/student";
+import {Coach} from "../entity/coach";
+import {Student} from "../entity/student";
 
 export interface DataStoredInToken{
     id: number;

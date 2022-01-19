@@ -1,9 +1,9 @@
 import config from "config";
 import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
-import { HttpException } from "@exceptions/HttpException";
-import { DataStoredInToken, RequestWithCoach } from "@interfaces/auth.interface";
-import {Coach} from "@entity/coach";
+import { HttpException } from "../exceptions/HttpException";
+import { DataStoredInToken, RequestWithCoach } from "../interfaces/auth.interface";
+import {Coach} from "../entity/coach";
 
 const CoachAuthMiddleware = async (req: RequestWithCoach, res: Response, next: NextFunction ) => {
     try {

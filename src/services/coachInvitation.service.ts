@@ -1,11 +1,11 @@
-import {CoachInvitationDto} from "@dtos/coachInvitation.dto";
-import {CoachInvitation} from "@entity/coachInvitation";
+import {CoachInvitationDto} from "../dtos/coachInvitation.dto";
+import {CoachInvitation} from "../entity/coachInvitation";
 import {getRepository, createQueryBuilder, getManager} from "typeorm";
-import {Student} from "@entity/student";
-import {Coach} from "@entity/coach";
+import {Student} from "../entity/student";
+import {Coach} from "../entity/coach";
 import moment from "moment";
-import {isEmpty} from "@utils/util";
-import {HttpException} from "@exceptions/HttpException";
+import {isEmpty} from "../utils/util";
+import {HttpException} from "../exceptions/HttpException";
 
 export class CoachInvitationService{
 

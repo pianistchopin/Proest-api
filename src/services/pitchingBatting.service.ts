@@ -1,5 +1,5 @@
-import {PitchingBatting} from "@entity/pitchingBatting"
-import {UpdatePitchingBattingDto} from "@dtos/updatePitchingBatting.dto";
+import {PitchingBatting} from "../entity/pitchingBatting"
+import {UpdatePitchingBattingDto} from "../dtos/updatePitchingBatting.dto";
 
 export class PitchingBattingService{
 

@@ -1,5 +1,5 @@
-import {Position} from "@entity/position"
-import {UpdatePositionDto} from "@dtos/updatePosition.dto";
+import {Position} from "../entity/position"
+import {UpdatePositionDto} from "../dtos/updatePosition.dto";
 
 export class PositionService{
 

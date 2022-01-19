@@ -1,8 +1,8 @@
-import {Chat} from "@entity/chat";
+import {Chat} from "../entity/chat";
 import {getRepository} from "typeorm";
-import {UpdateChatDto} from "@dtos/updateChat.dto";
-import {Student} from "@entity/student";
-import {CoachInvitation} from "@entity/coachInvitation";
+import {UpdateChatDto} from "../dtos/updateChat.dto";
+import {Student} from "../entity/student";
+import {CoachInvitation} from "../entity/coachInvitation";
 
 export class ChatService{
 

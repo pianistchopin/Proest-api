@@ -1,11 +1,11 @@
 import {Request, Router} from "express";
-import { Routes } from "@interfaces/routes.interface";
-import authMiddleware from "@middlewares/auth.middleware";
-import AuthController from "@controllers/student/auth.controller";
-import {ChatController} from "@controllers/chat.controller";
-import {studentUpload} from "@utils/util";
+import { Routes } from "../interfaces/routes.interface";
+import authMiddleware from "../middlewares/auth.middleware";
+import AuthController from "../controllers/student/auth.controller";
+import {ChatController} from "../controllers/chat.controller";
+import {studentUpload} from "../utils/util";
 import multer from "multer";
-import {RequestWithStudent} from "@interfaces/auth.interface";
+import {RequestWithStudent} from "../interfaces/auth.interface";
 
 export class ChatRoute implements Routes {
     path: string = "/message";

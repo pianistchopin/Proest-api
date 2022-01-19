@@ -1,9 +1,9 @@
-import {CreateStudentDto} from "@dtos/createStudent.dto";
-import {UpdateStudentDto} from "@dtos/updateStudent.dto";
-import {isEmpty} from "@utils/util";
-import {HttpException} from "@exceptions/HttpException";
-import {Student} from "@entity/student";
-import {Coach} from "@entity/coach";
+import {CreateStudentDto} from "../../dtos/createStudent.dto";
+import {UpdateStudentDto} from "../../dtos/updateStudent.dto";
+import {isEmpty} from "../../utils/util";
+import {HttpException} from "../../exceptions/HttpException";
+import {Student} from "../../entity/student";
+import {Coach} from "../../entity/coach";
 
 export class StudentService{
     create = (createStudentDto: CreateStudentDto) => {

@@ -1,7 +1,7 @@
-import {UpdateCoachDto} from "@dtos/updateCoach.dto";
-import {isEmpty} from "@utils/util";
-import {HttpException} from "@exceptions/HttpException";
-import {Coach} from "@entity/coach";
+import {UpdateCoachDto} from "../../dtos/updateCoach.dto";
+import {isEmpty} from "../../utils/util";
+import {HttpException} from "../../exceptions/HttpException";
+import {Coach} from "../../entity/coach";
 import {getManager, getRepository} from "typeorm";
 
 

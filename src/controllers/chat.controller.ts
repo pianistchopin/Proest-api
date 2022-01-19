@@ -1,12 +1,12 @@
-import {RequestWithCoach, RequestWithStudent} from "@interfaces/auth.interface";
+import {RequestWithCoach, RequestWithStudent} from "../interfaces/auth.interface";
 import {NextFunction, Request, Response} from "express";
-import {UpdateChatDto} from "@dtos/updateChat.dto";
-import {CoachService} from "@services/coach/coach.service";
-import {ChatService} from "@services/chat.service";
-import {StudentService} from "@services/student/student.service";
+import {UpdateChatDto} from "../dtos/updateChat.dto";
+import {CoachService} from "../services/coach/coach.service";
+import {ChatService} from "../services/chat.service";
+import {StudentService} from "../services/student/student.service";
 import ThumbnailGenerator from 'video-thumbnail-generator';
 import fs from "fs";
-import {Chat} from "@entity/chat";
+import {Chat} from "../entity/chat";
 
 export class ChatController{
     

@@ -1,5 +1,5 @@
-import {SchoolYear} from "@entity/schoolYear"
-import {UpdateSchoolYearDto} from "@dtos/updateSchoolYear.dto";
+import {SchoolYear} from "../entity/schoolYear"
+import {UpdateSchoolYearDto} from "../dtos/updateSchoolYear.dto";
 
 export class SchoolYearService{
 

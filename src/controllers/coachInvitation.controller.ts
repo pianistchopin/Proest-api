@@ -1,14 +1,14 @@
-import {CoachInvitationDto} from "@dtos/coachInvitation.dto";
+import {CoachInvitationDto} from "../dtos/coachInvitation.dto";
 import {NextFunction, Request, Response} from "express";
-import {CoachInvitation} from "@entity/coachInvitation";
-import {CoachInvitationService} from "@services/coachInvitation.service";
-import {RequestWithCoach, RequestWithStudent} from "@interfaces/auth.interface";
+import {CoachInvitation} from "../entity/coachInvitation";
+import {CoachInvitationService} from "../services/coachInvitation.service";
+import {RequestWithCoach, RequestWithStudent} from "../interfaces/auth.interface";
 import moment from "moment";
-import {UpdateStudentDto} from "@dtos/updateStudent.dto";
-import {StudentService} from "@services/student/student.service";
-import {CoachService} from "@services/coach/coach.service";
-import {UpdateChatDto} from "@dtos/updateChat.dto";
-import {ChatService} from "@services/chat.service";
+import {UpdateStudentDto} from "../dtos/updateStudent.dto";
+import {StudentService} from "../services/student/student.service";
+import {CoachService} from "../services/coach/coach.service";
+import {UpdateChatDto} from "../dtos/updateChat.dto";
+import {ChatService} from "../services/chat.service";
 
 export class CoachInvitationController{
     

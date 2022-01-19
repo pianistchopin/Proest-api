@@ -1,13 +1,13 @@
-import {CreateStudentDto} from "@dtos/createStudent.dto";
-import {UpdateStudentDto} from "@dtos/updateStudent.dto";
+import {CreateStudentDto} from "../../dtos/createStudent.dto";
+import {UpdateStudentDto} from "../../dtos/updateStudent.dto";
 import {NextFunction, Request, Response} from "express";
-import {StudentService} from "@services/student/student.service";
-import {Student} from "@entity/student";
-import {Coach} from "@entity/coach";
-import {CoachService} from "@services/coach/coach.service";
-import {RequestWithCoach, RequestWithStudent} from "@interfaces/auth.interface";
-import {CoachInvitationService} from "@services/coachInvitation.service";
-import {callFirebaseApi} from "@utils/fireBase.util"
+import {StudentService} from "../../services/student/student.service";
+import {Student} from "../../entity/student";
+import {Coach} from "../../entity/coach";
+import {CoachService} from "../../services/coach/coach.service";
+import {RequestWithCoach, RequestWithStudent} from "../../interfaces/auth.interface";
+import {CoachInvitationService} from "../../services/coachInvitation.service";
+import {callFirebaseApi} from "../../utils/fireBase.util"
 
 export class StudentController {
     

@@ -1,20 +1,20 @@
-import {UpdateStudentDto} from "@dtos/updateStudent.dto";
+import {UpdateStudentDto} from "../../dtos/updateStudent.dto";
 import {NextFunction, Request, Response} from "express";
-import {CoachService} from "@services/coach/coach.service";
-import {CoachInvitationService} from "@services/coachInvitation.service";
-import {Coach} from "@entity/coach";
-import {RequestWithCoach} from "@interfaces/auth.interface";
-import {CoachInvitation} from "@entity/coachInvitation";
+import {CoachService} from "../../services/coach/coach.service";
+import {CoachInvitationService} from "../../services/coachInvitation.service";
+import {Coach} from "../../entity/coach";
+import {RequestWithCoach} from "../../interfaces/auth.interface";
+import {CoachInvitation} from "../../entity/coachInvitation";
 import moment from "moment";
-import {CoachInvitationDto} from "@dtos/coachInvitation.dto";
-import {StudentService} from "@services/student/student.service";
-import {callFirebaseApi} from "@utils/fireBase.util";
-import {isEmpty} from "@utils/util";
-import {HttpException} from "@exceptions/HttpException";
-import {UpdateCoachDto} from "@dtos/updateCoach.dto";
+import {CoachInvitationDto} from "../../dtos/coachInvitation.dto";
+import {StudentService} from "../../services/student/student.service";
+import {callFirebaseApi} from "../../utils/fireBase.util";
+import {isEmpty} from "../../utils/util";
+import {HttpException} from "../../exceptions/HttpException";
+import {UpdateCoachDto} from "../../dtos/updateCoach.dto";
 import fs from "fs";
 import ThumbnailGenerator from 'video-thumbnail-generator';
-import {ChatService} from "@services/chat.service";
+import {ChatService} from "../../services/chat.service";
 
 export class CoachController {
 

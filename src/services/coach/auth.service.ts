@@ -1,12 +1,12 @@
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import {isEmpty} from '@utils/util';
-import {LoginUserDto} from "@dtos/loginUser.dto";
-import {SignUpUserDto} from "@dtos/signUpUser.dto";
-import {HttpException} from "@exceptions/HttpException";
-import {Coach} from "@entity/coach";
-import {DataStoredInToken, TokenData} from "@interfaces/auth.interface";
-import {Student} from "@entity/student";
+import {isEmpty} from '../../utils/util';
+import {LoginUserDto} from "../../dtos/loginUser.dto";
+import {SignUpUserDto} from "../../dtos/signUpUser.dto";
+import {HttpException} from "../../exceptions/HttpException";
+import {Coach} from "../../entity/coach";
+import {DataStoredInToken, TokenData} from "../../interfaces/auth.interface";
+import {Student} from "../../entity/student";
 
 class AuthService{
     public async signUp(userData: SignUpUserDto){

@@ -1,9 +1,9 @@
 import config from "config";
 import { NextFunction, Response } from "express";
 import jwt from "jsonwebtoken";
-import { HttpException } from "@exceptions/HttpException";
-import { DataStoredInToken, RequestWithStudent } from "@interfaces/auth.interface";
-import {Student} from "@entity/student";
+import { HttpException } from "../exceptions/HttpException";
+import { DataStoredInToken, RequestWithStudent } from "../interfaces/auth.interface";
+import {Student} from "../entity/student";
 
 const authMiddleware = async (req: RequestWithStudent, res: Response, next: NextFunction ) => {
     try {

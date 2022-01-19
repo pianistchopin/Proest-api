@@ -1,13 +1,13 @@
 import {NextFunction, Request, Response} from "express";
-import AuthService from "@services/coach/auth.service";
-import {LoginUserDto} from "@dtos/loginUser.dto";
-import {SignUpUserDto} from "@dtos/signUpUser.dto";
-import {Coach} from "@entity/coach";
-import {SchoolYearService} from "@services/schoolYear.service";
-import {PositionService} from "@services/position.service";
-import {PitchingBattingService} from "@services/pitchingBatting.service";
-import {RequestWithCoach} from "@interfaces/auth.interface";
-import {callFirebaseApi} from "@utils/fireBase.util";
+import AuthService from "../../services/coach/auth.service";
+import {LoginUserDto} from "../../dtos/loginUser.dto";
+import {SignUpUserDto} from "../../dtos/signUpUser.dto";
+import {Coach} from "../../entity/coach";
+import {SchoolYearService} from "../../services/schoolYear.service";
+import {PositionService} from "../../services/position.service";
+import {PitchingBattingService} from "../../services/pitchingBatting.service";
+import {RequestWithCoach} from "../../interfaces/auth.interface";
+import {callFirebaseApi} from "../../utils/fireBase.util";
 class AuthController{
     public authService = new AuthService();
     public schoolYearService = new SchoolYearService();

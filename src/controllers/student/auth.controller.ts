@@ -1,15 +1,15 @@
 import {NextFunction, Request, Response} from "express";
-import AuthService from "@services/student/auth.service";
-import {LoginUserDto} from "@dtos/loginUser.dto";
-import {SignUpUserDto} from "@dtos/signUpUser.dto";
-import {Student} from "@entity/student";
-import { SchoolYearService } from "@services/schoolYear.service";
-import {PositionService} from "@services/position.service";
-import {PitchingBattingService} from "@services/pitchingBatting.service";
-import {RequestWithStudent} from "@interfaces/auth.interface";
-import {CreateStudentDto} from "@dtos/createStudent.dto";
-import {callFirebaseApi} from "@utils/fireBase.util"
-import {UpdateStudentDto} from "@dtos/updateStudent.dto";
+import AuthService from "../../services/student/auth.service";
+import {LoginUserDto} from "../../dtos/loginUser.dto";
+import {SignUpUserDto} from "../../dtos/signUpUser.dto";
+import {Student} from "../../entity/student";
+import { SchoolYearService } from "../../services/schoolYear.service";
+import {PositionService} from "../../services/position.service";
+import {PitchingBattingService} from "../../services/pitchingBatting.service";
+import {RequestWithStudent} from "../../interfaces/auth.interface";
+import {CreateStudentDto} from "../../dtos/createStudent.dto";
+import {callFirebaseApi} from "../../utils/fireBase.util"
+import {UpdateStudentDto} from "../../dtos/updateStudent.dto";
 
 
 class AuthController{
