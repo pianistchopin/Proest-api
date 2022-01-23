@@ -27,4 +27,18 @@ export class CoachInvitation extends BaseEntity {
     @Column()
     month_target: string;
 
+    @Column({ type: "float" })
+    know_easy_rate: number;
+
+    @Column({ type: "float" })
+    polite_rate: number;
+
+    @Column({ type: "float" })
+    start_easy_rate: number;
+
+    @Column({ type: "float" })
+    reply_rate: number;
+
+    @Column({ type: "float" })
+    sum_rate: number;
 }

@@ -111,6 +111,16 @@ export class CoachInvitationService{
             .getRawOne();
     }
 
+    getEndCoach = async (student_id, current_date): Promise<CoachInvitation> => {
+        return await getRepository(CoachInvitation)
+            .createQueryBuilder()
+            .select("*")
+            .where("student_id = :student_id", { student_id: student_id })
+            .andWhere("expire_date < :current_date", { current_date: current_date })
+            .andWhere("status = 'accept'")
+            .getRawOne();
+    }
+
     removeInvitation = async (coach_id, student_id) => {
         await CoachInvitation.createQueryBuilder("coachInvitation")
             .delete()

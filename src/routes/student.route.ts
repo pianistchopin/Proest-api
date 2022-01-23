@@ -47,7 +47,9 @@ class StudentRoute implements Routes {
         this.router.get(`${this.path}/tos`, function(req, res) {
             res.sendFile(path.join(__dirname, '../tos/student_tos.html'));
         });
-        
+
+        this.router.post(`${this.path}/get_end_coach`,authMiddleware, this.coachInvitationController.getEndCoach);
+        this.router.post(`${this.path}/give_review`,authMiddleware, this.coachInvitationController.giveReview);
     }
 }
 

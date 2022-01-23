@@ -22,4 +22,19 @@ export class CoachInvitationDto{
 
     @IsString()
     month_target: string;
+
+    @IsNumber()
+    know_easy_rate: number;
+
+    @IsNumber()
+    polite_rate: number;
+
+    @IsNumber()
+    start_easy_rate: number;
+
+    @IsNumber()
+    reply_rate: number;
+
+    @IsNumber()
+    sum_rate: number;
 }

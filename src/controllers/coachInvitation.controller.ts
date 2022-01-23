@@ -93,8 +93,6 @@ export class CoachInvitationController{
              await this.coachInvitationService.acceptInvitation(coachInvitationDto, coach_id, student_id);
 
             const accept_invitation_data = await this.coachInvitationService.getAcceptRow(coach_id, student_id);
-            console.log("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-            console.log(accept_invitation_data);
 
             /**
              * set expire_date and coach_id of student table
@@ -215,6 +213,40 @@ export class CoachInvitationController{
                 res.status(200).json({message: 'no data', status: 0});
             }
         } catch (error) {
+            next(error);
+        }
+    }
+
+    giveReview = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+        try {
+            const id = req.body.id;
+            const know_easy_rate = parseFloat(req.body.know_easy_rate);
+            const polite_rate = parseFloat(req.body.polite_rate);
+            const start_easy_rate = parseFloat(req.body.start_easy_rate);
+            const reply_rate = parseFloat(req.body.reply_rate);
+            const sum = know_easy_rate + polite_rate + start_easy_rate + reply_rate;
+            const sum_rate = sum/4;
+            const coachInvitationDto :CoachInvitationDto = {...req.body, sum_rate: sum_rate, status:"complete"};
+            // coachInvitationDto.sum_rate = sum_rate;
+            // coachInvitationDto.status = "complete";
+
+            await this.coachInvitationService.update(id, coachInvitationDto);
+            
+            res.status(200).json({  message: 'set review', status:1 });
+        }catch (error){
+            next(error);
+        }
+    }
+
+    getEndCoach = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+        try {
+            const student_id = req.student.id;
+            const cur_date = moment().format('YYYY-MM-DD');
+
+            const endCoachRow = await this.coachInvitationService.getEndCoach(student_id, cur_date);
+            
+            res.status(200).json({ data: endCoachRow, message: 'End Coach Row', status:1 });
+        }catch (error){
             next(error);
         }
     }
