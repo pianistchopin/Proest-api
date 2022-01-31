@@ -17,6 +17,10 @@ export class CoachService{
         return await Coach.findOne(id);
     }
 
+    delete = async (id:number) => {
+        await Coach.delete(id);
+    }
+
     findCoachByInviteCode = async (invitation_code: number) => {
         return await getRepository(Coach)
             .createQueryBuilder()
@@ -33,6 +37,15 @@ export class CoachService{
             .orderBy("rating", 'DESC')
             .getRawMany();
     }
+
+    findCoachByStudy = async (studyId: string) => {
+        return await getRepository(Coach)
+            .createQueryBuilder()
+            .select("*")
+            .where("study = :study", {study: studyId })
+            .orderBy("rating", 'DESC')
+            .getRawMany();
+    }
     
     findCoachById = async (id) => {
         return await Coach.findOne(id);
@@ -44,6 +57,10 @@ export class CoachService{
             .select("*")
             .orderBy("rating", 'DESC')
             .getRawMany();
+    }
+
+    findAllCoach = async () => {
+        return await Coach.find();
     }
 
 }

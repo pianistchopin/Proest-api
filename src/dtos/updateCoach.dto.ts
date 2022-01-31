@@ -20,6 +20,9 @@ export class UpdateCoachDto{
     @IsNumber()
     position?: number;
 
+    @IsNumber()
+    study?: string;
+
     @IsString()
     baseball_career?: string;
 

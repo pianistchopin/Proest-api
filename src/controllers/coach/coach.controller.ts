@@ -23,6 +23,16 @@ export class CoachController {
     public coachInvitationService = new CoachInvitationService();
     public chatService = new ChatService();
 
+    deleteUser = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
+        try {
+            const id = req.coach.id;
+            await this.coachService.delete(id);
+            res.status(200).json({  message: 'delete coach', status: 1 });
+        }catch (error){
+            next(error);
+        }
+    }
+
     update = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
         try {
             const id = req.coach.id;

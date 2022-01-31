@@ -22,6 +22,9 @@ export class UpdateStudentDto {
     @IsNumber()
     position?: number;
 
+    @IsNumber()
+    study?: string;
+
     @IsString()
     team?: string;
 

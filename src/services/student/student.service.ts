@@ -29,6 +29,10 @@ export class StudentService{
         return await Student.findOne(id);
     }
 
+    delete = async (id:number) => {
+        await Student.delete(id);
+    }
+
     findStudentById = async (id: number) => {
         return await Student.findOne(id);
     }

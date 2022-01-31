@@ -6,39 +6,39 @@ export class CoachInvitation extends BaseEntity {
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({default:0})
     student_id: number;
     
-    @Column()
+    @Column({default:0})
     coach_id: number;
     
-    @Column()
+    @Column({default:""})
     status: string;
 
-    @Column()
+    @Column({default:""})
     start_date: string;
 
-    @Column()
+    @Column({default:""})
     expire_date: string;
 
-    @Column()
+    @Column({default:""})
     invite_date: string;
 
-    @Column()
+    @Column({default:""})
     month_target: string;
 
-    @Column({ type: "float" })
+    @Column({ type: "float", default:0.00})
     know_easy_rate: number;
 
-    @Column({ type: "float" })
+    @Column({ type: "float", default:0.00 })
     polite_rate: number;
 
-    @Column({ type: "float" })
+    @Column({ type: "float", default:0.00 })
     start_easy_rate: number;
 
-    @Column({ type: "float" })
+    @Column({ type: "float", default:0.00 })
     reply_rate: number;
 
-    @Column({ type: "float" })
+    @Column({ type: "float", default:0.00 })
     sum_rate: number;
 }

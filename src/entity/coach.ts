@@ -15,51 +15,54 @@ export class Coach extends BaseEntity{
     @Column()
     password: string;
 
-    @Column()
+    @Column({default:0})
     school_year: number;
 
-    @Column()
+    @Column({default:0})
     pitching_batting: number;
 
-    @Column()
+    @Column({default:0})
     position: number;
 
-    @Column()
+    @Column({default:""})
+    study: string;
+
+    @Column({default:""})
     baseball_career: string;
 
-    @Column()
+    @Column({default:""})
     avatar: string;
 
-    @Column("varchar", { length: 1000 })
+    @Column("varchar", { length: 1000, default:"" })
     profile: string;
 
-    @Column("varchar", { length: 1000 })
+    @Column("varchar", { length: 1000, default:"" })
     specialty: string;
 
-    @Column()
+    @Column({default:""})
     profile_video: string;
 
-    @Column()
+    @Column({default:""})
     profile_video_thumb: string;
 
-    @Column()
+    @Column({default:""})
     payment: string;
 
-    @Column({ type: "float" })
+    @Column({ type: "float", default:0.00})
     rating: number;
 
-    @Column()
+    @Column({default:""})
     access_token: string;
 
-    @Column()
+    @Column({default:""})
     invitation_code: string;
 
-    @Column()
+    @Column({default:""})
     fcm_token: string;
     
-    @Column()
+    @Column({default:""})
     stripe_connect_id: string;
 
-    @Column()
+    @Column({default:""})
     stripe_customer_id: string;
 }

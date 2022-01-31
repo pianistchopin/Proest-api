@@ -6,60 +6,60 @@ export class Chat extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
 
-    @Column()
+    @Column({default:0})
     room_id: number;
 
-    @Column()
+    @Column({default:0})
     student_id: number;
 
-    @Column()
+    @Column({default:0})
     coach_id: number;
 
-    @Column()
+    @Column({default:""})
     week_start_date: string;
 
-    @Column()
+    @Column({default:""})
     week_end_date: string;
 
-    @Column()
+    @Column({default:""})
     previous_student_message: string;
 
-    @Column()
+    @Column({default:""})
     previous_student_file: string;
 
-    @Column()
+    @Column({default:""})
     previous_student_file_thumb: string;
 
-    @Column()
+    @Column({default:""})
     previous_coach_message: string;
 
-    @Column()
+    @Column({default:""})
     previous_coach_file: string;
 
-    @Column()
+    @Column({default:""})
     previous_coach_file_thumb: string;
 
     @Column()
     week_student_message: string;
 
-    @Column()
+    @Column({default:""})
     week_student_file: string;
 
-    @Column()
+    @Column({default:""})
     week_student_file_thumb: string;
 
-    @Column()
+    @Column({default:""})
     week_coach_message: string;
 
-    @Column()
+    @Column({default:""})
     week_coach_file: string;
 
-    @Column()
+    @Column({default:""})
     week_coach_file_thumb: string;
 
-    @Column()
+    @Column({default:""})
     week_target: string;
 
-    @Column()
+    @Column({default:0})
     invitation_id: number;
 }

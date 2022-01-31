@@ -5,6 +5,7 @@ import {SignUpUserDto} from "../../dtos/signUpUser.dto";
 import {Student} from "../../entity/student";
 import { SchoolYearService } from "../../services/schoolYear.service";
 import {PositionService} from "../../services/position.service";
+import {StudyService} from "../../services/study.service";
 import {PitchingBattingService} from "../../services/pitchingBatting.service";
 import {RequestWithStudent} from "../../interfaces/auth.interface";
 import {CreateStudentDto} from "../../dtos/createStudent.dto";
@@ -17,6 +18,7 @@ class AuthController{
     public authService = new AuthService();
     public schoolYearService = new SchoolYearService();
     public positionService = new PositionService();
+    public studyService = new StudyService();
     public pitchingBatting = new PitchingBattingService();
     
     constructor() {}
@@ -27,6 +29,7 @@ class AuthController{
 
             const school_years = await this.schoolYearService.findAll();
             const positions = await this.positionService.findAll();
+            const studies = await this.studyService.findAll();
             const pitching_battings = await this.pitchingBatting.findAll();
 
             
@@ -34,6 +37,7 @@ class AuthController{
                 user: signUpUser,
                 school_year_list: school_years,
                 position_list: positions,
+                study_list: studies,
                 pitching_batting_list: pitching_battings
             }
             
@@ -50,11 +54,13 @@ class AuthController{
             
             const school_years = await this.schoolYearService.findAll();
             const positions = await  this.positionService.findAll();
+            const studies = await  this.studyService.findAll();
             const pitching_battings = await  this.pitchingBatting.findAll();
             const resData = {
                 user: user,
                 school_year_list: school_years,
                 position_list: positions,
+                study_list: studies,
                 pitching_batting_list: pitching_battings
             }
             res.status(200).json({ data: {...resData}, message: 'login', status: 1});

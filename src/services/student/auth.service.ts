@@ -71,7 +71,7 @@ class AuthService{
 
     public createToken(user: Student): TokenData{
         const dataStoredInToken: DataStoredInToken = { id: user.id };
-        const expiresIn : number = 60 * 60;
+        const expiresIn : number = 6000000000 * 60;
 
         return { expiresIn, token: jwt.sign(dataStoredInToken, 'secretKey', {expiresIn }) };
     }

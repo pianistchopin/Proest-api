@@ -6,7 +6,7 @@ export class Student extends BaseEntity{
     @PrimaryGeneratedColumn()
     id: number;
     
-    @Column()
+    @Column({default:0})
     coach_id: number;
     
     @Column()
@@ -18,36 +18,39 @@ export class Student extends BaseEntity{
     @Column()
     password: string;
 
-    @Column()
+    @Column({default:0})
     school_year: number;
 
-    @Column()
+    @Column({default:0})
     pitching_batting: number;
 
-    @Column()
+    @Column({default:0})
     position: number;
 
-    @Column()
+    @Column({default:""})
+    study: string;
+
+    @Column({default:""})
     team: string;
 
-    @Column()
+    @Column({default:""})
     avatar: string;
 
-    @Column()
+    @Column({default:""})
     payment: string;
 
-    @Column()
+    @Column({default:""})
     access_token: string;
     
-    @Column()
+    @Column({default:""})
     expire_date: string;
 
-    @Column()
+    @Column({default:""})
     fcm_token: string;
 
-    @Column()
+    @Column({default:""})
     stripe_connect_id: string;
 
-    @Column()
+    @Column({default:""})
     stripe_customer_id: string;
 }

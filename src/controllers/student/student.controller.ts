@@ -14,6 +14,17 @@ export class StudentController {
     public studentService = new StudentService();
     public coachInvitationService = new CoachInvitationService();
     public coachService = new CoachService();
+
+    deleteUser = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+        try {
+            const id = req.student.id;
+            await this.studentService.delete(id);
+            res.status(200).json({  message: 'delete coach', status: 1 });
+        }catch (error){
+            next(error);
+        }
+    }
+
     create = (createStudentDto: CreateStudentDto) => {
         
     }
@@ -94,7 +105,7 @@ export class StudentController {
         }
     }
 
-    getRecommendCoach = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+    getRecommendCoach_position = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
         try {
             const student = req.student;
             const position_id = student.position;
@@ -105,11 +116,43 @@ export class StudentController {
         }
     }
 
+    getRecommendCoach = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+        try {
+            const student = req.student;
+            const study_id = student.study;
+            const recommend_coach: any = await this.coachService.findCoachByStudy(study_id);
+            res.status(200).json({ data: recommend_coach, message: 'recommend coach by top rating with same study', status:1 });
+        }catch (error) {
+            next(error);
+        }
+    }
+
     getCoachByPosition = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
         try {
             const position_id = req.body.position;
             const recommend_coach: any = await this.coachService.findCoachByPosition(position_id);
             res.status(200).json({ data: recommend_coach, message: 'recommend coach by top rating with same position', status:1 });
+        }catch (error) {
+            next(error);
+        }
+    }
+
+    getCoachByStudy = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+        try {
+            const study_id = req.body.study;
+            const all_coach: Coach[] = await this.coachService.findAllCoach();
+
+            let recommend_coach = [];
+            all_coach.forEach((coach) => {
+
+                let studyArr = coach.study.split(",");
+                let study_flag = studyArr.find(id => id === study_id);
+                if(study_flag){
+                    recommend_coach.push(coach);
+                }
+            })
+
+            res.status(200).json({ data: recommend_coach, message: 'recommend coach by top rating with same study', status:1 });
         }catch (error) {
             next(error);
         }

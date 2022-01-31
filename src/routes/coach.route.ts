@@ -44,6 +44,7 @@ class CoachRoute implements Routes{
         });
         this.router.post(`${this.path}/get_coach_videos`, CoachAuthMiddleware, this.coachController.getCoachVideos);
         this.router.post(`${this.path}/get_month_target`,CoachAuthMiddleware , this.coachInvitationController.getMonthTargetFromCoach);
+        this.router.post(`${this.path}/delete`,CoachAuthMiddleware, this.coachController.deleteUser);
     }
 }
 
