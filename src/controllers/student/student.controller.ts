@@ -7,18 +7,34 @@ import {Coach} from "../../entity/coach";
 import {CoachService} from "../../services/coach/coach.service";
 import {RequestWithCoach, RequestWithStudent} from "../../interfaces/auth.interface";
 import {CoachInvitationService} from "../../services/coachInvitation.service";
-import {callFirebaseApi} from "../../utils/fireBase.util"
+import {callFirebaseApi} from "../../utils/fireBase.util";
+import {ChatService} from "../../services/chat.service";
 
 export class StudentController {
     
     public studentService = new StudentService();
     public coachInvitationService = new CoachInvitationService();
     public coachService = new CoachService();
+    public chatService = new ChatService();
 
     deleteUser = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
         try {
             const id = req.student.id;
+
+            // const pendingStudent = this.coachInvitationService.findStudentByIdStatus(id, "pending");
+            // if(pendingStudent){
+            //     res.status(200).json({  message: 'can not delete student. you sent invitation to coach. please verify', status: 0 });
+            // }
+
+            // const acceptStudent = this.coachInvitationService.findStudentByIdStatus(id, "accept");
+            // if(acceptStudent){
+            //     res.status(200).json({  message: 'can not delete student. you accept from coach. please verify', status: 0 });
+            // }
+
+            await this.coachInvitationService.removeStudent(id);
+            await this.chatService.removeStudent(id);
             await this.studentService.delete(id);
+
             res.status(200).json({  message: 'delete coach', status: 1 });
         }catch (error){
             next(error);

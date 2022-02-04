@@ -39,7 +39,7 @@ export class Chat extends BaseEntity{
     @Column({default:""})
     previous_coach_file_thumb: string;
 
-    @Column()
+    @Column({default:""})
     week_student_message: string;
 
     @Column({default:""})

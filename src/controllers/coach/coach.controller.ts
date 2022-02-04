@@ -53,7 +53,12 @@ export class CoachController {
             if(file.profile_video){
                 const file_origin =  this.saveFileStorage(file.profile_video[0], "profile_video", id, ".mp4");
                 userData.profile_video = file_origin.file_path;
-                userData.profile_video_thumb = file_origin.file_thumb;
+                userData.profile_video_thumb = file_origin.file_thumb;  
+            }
+
+            if(userData.profile_video == "delete"){
+                userData.profile_video = "";
+                userData.profile_video_thumb = "";
             }
 
             const updateUserData: Coach = await this.coachService.update(id, userData);

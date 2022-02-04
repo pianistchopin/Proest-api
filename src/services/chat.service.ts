@@ -61,5 +61,12 @@ export class ChatService{
     findChatById = async (id: number) => {
         return await Chat.findOne(id);
     }
+
+    removeStudent = async (student_id: number) => {
+        await Chat.createQueryBuilder("Chat")
+        .delete()
+        .where("student_id = :student_id", { student_id: student_id })
+        .execute();
+    }
     
 }

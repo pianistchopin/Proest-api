@@ -29,10 +29,20 @@ export class ChatController{
                 data.previous_student_file_thumb = save_file.file_thumb;
             }
             
+            if(data.previous_student_file == "delete"){
+                data.previous_student_file = "";
+                data.previous_student_file_thumb = "";
+            }
+            
             if(file.previous_coach_file){
                 let save_file = this.saveFileStorage(file.previous_coach_file[0], "previous_coach_file", coach_id);
                 data.previous_coach_file = save_file.file_path;
                 data.previous_coach_file_thumb = save_file.file_thumb;
+            }
+
+            if(data.previous_coach_file == "delete"){
+                data.previous_coach_file = "";
+                data.previous_coach_file_thumb = "";
             }
 
             if(file.week_student_file){
@@ -41,10 +51,20 @@ export class ChatController{
                 data.week_student_file_thumb = save_file.file_thumb;
             }
 
+            if(data.week_student_file == "delete"){
+                data.week_student_file = "";
+                data.week_student_file_thumb = "";
+            }
+
             if(file.week_coach_file){
                 let save_file = this.saveFileStorage(file.week_coach_file[0], "week_coach_file", coach_id);
                 data.week_coach_file = save_file.file_path;
                 data.week_coach_file_thumb = save_file.file_thumb;
+            }
+
+            if(data.week_coach_file == "delete"){
+                data.week_coach_file = "";
+                data.week_coach_file_thumb = "";
             }
 
             await this.chatService.updateChatByCurDate(cur_date, student_id, coach_id, data);

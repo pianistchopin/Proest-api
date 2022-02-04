@@ -9,7 +9,7 @@ import {StudentService} from "../services/student/student.service";
 import {CoachService} from "../services/coach/coach.service";
 import {UpdateChatDto} from "../dtos/updateChat.dto";
 import {ChatService} from "../services/chat.service";
-
+import {callFirebaseApi} from "../utils/fireBase.util"
 export class CoachInvitationController{
     
     public coachInvitationService = new CoachInvitationService();
@@ -24,6 +24,8 @@ export class CoachInvitationController{
             data.student_id = req.student.id;
             data.coach_id = req.body.coach_id;
             data.invite_date = moment().format('YYYY-MM-DD');
+
+            let student_name = req.student.user_name;
             
             // overwrite invite from student to coach
             const force = req.body.force;
@@ -55,7 +57,19 @@ export class CoachInvitationController{
                 }
                 else{
                     const createdData =  await this.coachInvitationService.create(data);
-                    const new_invite_coach = await this.coachService.findCoachById(data.coach_id)
+                    const new_invite_coach = await this.coachService.findCoachById(data.coach_id);
+
+                    /**
+                     * send notification via firebase when student sent invite to coach
+                     */
+                    let notification_body_data = {
+                        "type": "coach_invitation",
+                        "student_id": data.student_id
+                    }
+                    let noti_body = student_name + "からコーチへの招待がありました。"
+                    callFirebaseApi(new_invite_coach.fcm_token, noti_body, notification_body_data);
+                    // ---------------------------------------------------------------------------------
+                    
                     res.status(200).json({data: new_invite_coach.user_name,  message: 'new_invite', status:1 });
                 }
             }
@@ -138,6 +152,20 @@ export class CoachInvitationController{
             chatDto.week_end_date = month_end_date;
             await this.chatService.save(chatDto);
             
+
+               /**
+                 * send notification via firebase when coach accept student invitation
+                 */
+                let coach_name = req.coach.user_name;
+                let notification_body_data = {
+                    "type": "accept_coach_invitation",
+                    "coach_id": coach_id
+                }
+                const student_row = await this.studentService.findStudentById(student_id);
+                let noti_body = coach_name + "がコーチ招待を承認しました。"
+                callFirebaseApi(student_row.fcm_token, noti_body, notification_body_data);
+                // ---------------------------------------------------------------------------------
+
             res.status(200).json({  message: 'accept invitation', status:1 });
         }catch (error){
             next(error);
@@ -169,9 +197,9 @@ export class CoachInvitationController{
         }
     }
     
-    updateMonthTarget = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+    updateMonthTarget = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
         try {
-            const student_id = req.student.id;
+            const student_id = req.body.student_id;
             const month_target = req.body.month_target;
             const coachInvitationDto = new CoachInvitationDto();
             coachInvitationDto.month_target = month_target;

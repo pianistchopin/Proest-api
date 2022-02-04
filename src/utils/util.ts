@@ -32,7 +32,7 @@ const storage_student = multer.diskStorage({
     }
 });
 
-export const studentUpload = multer({storage: storage_student});
+export const studentUpload = multer({storage: storage_student,limits: { fileSize:  100000000}});
 
 const storage_coach = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -51,4 +51,4 @@ const storage_coach = multer.diskStorage({
     }
 });
 
-export const coachUpload = multer({storage: storage_coach});
+export const coachUpload = multer({storage: storage_coach,limits: { fileSize:  100000000}});

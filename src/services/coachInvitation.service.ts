@@ -150,4 +150,21 @@ export class CoachInvitationService{
             .orderBy("CoachInvitation.start_date", 'DESC')
             .getRawMany();
     }
+
+    findStudentByIdStatus =async (student_id:number, status: string) => {
+        return await getRepository(CoachInvitation)
+        .createQueryBuilder()
+        .select("*")
+        .where("student_id = :student_id", { student_id: student_id })
+        .andWhere("status = :status", {status: status})
+        .getRawOne();
+        
+    }
+
+    removeStudent = async (student_id) => {
+        await CoachInvitation.createQueryBuilder("coachInvitation")
+            .delete()
+            .where("student_id = :student_id", { student_id: student_id })
+            .execute();
+    }
 }

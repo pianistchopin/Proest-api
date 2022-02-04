@@ -33,7 +33,7 @@ class CoachRoute implements Routes{
         this.router.put(`${this.path}/update_profile`,[CoachAuthMiddleware, coachUpload.fields([{name: 'file'}, {name: 'profile_video'}])], this.coachController.update);
         this.router.post(`${this.path}/get_my_students`,CoachAuthMiddleware, this.coachController.getMyStudents);
         this.router.post(`${this.path}/get_pending_students`,CoachAuthMiddleware, this.coachController.getPendingStudents);
-        
+        this.router.post(`${this.path}/update_month_target`,CoachAuthMiddleware , this.coachInvitationController.updateMonthTarget);
         this.router.post(`${this.path}/accept_invite`,CoachAuthMiddleware, this.coachInvitationController.acceptInvitation);
         this.router.post(`${this.path}/decline_invite`, CoachAuthMiddleware, this.coachInvitationController.declineInvitation);
         this.router.post(`${this.path}/get_coach_by_id`, this.coachController.findCoachById);
