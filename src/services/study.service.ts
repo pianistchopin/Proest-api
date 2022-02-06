@@ -1,5 +1,6 @@
 import {Study} from "../entity/study"
 import {UpdateStudyDto} from "../dtos/updateStudy.dto";
+import {CoachInvitation} from "@entity/coachInvitation";
 
 export class StudyService{
 
@@ -13,12 +14,20 @@ export class StudyService{
         return study;
     }
 
-    update = (id: number, updateStudyDto: UpdateStudyDto) => {
-
+    update = async (id: number, updateStudyDto: UpdateStudyDto) => {
+        await Study.update(id, updateStudyDto);
     }
 
-    remove = (id: number) => {
+    remove = async (id: number) => {
+        await Study.createQueryBuilder("Study")
+            .delete()
+            .where("id = :id", { id: id })
+            .execute();
+    }
 
+    save = async (updateData: UpdateStudyDto): Promise<Study> => {
+        const data = Study.create(updateData)
+        return await Study.save(data);
     }
 
 }

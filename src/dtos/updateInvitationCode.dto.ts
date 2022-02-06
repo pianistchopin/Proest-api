@@ -1,11 +1,11 @@
 import { IsEmail, IsNumber, IsString } from 'class-validator';
 
-export class UpdateStudyDto  {
+export class UpdateInvitationCodeDto  {
 
     @IsNumber()
     id: number;
 
     @IsString()
-    title: String;
+    invitation_code: String;
 
 }

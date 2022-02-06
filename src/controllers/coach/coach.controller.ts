@@ -15,6 +15,8 @@ import {UpdateCoachDto} from "../../dtos/updateCoach.dto";
 import fs from "fs";
 import ThumbnailGenerator from 'video-thumbnail-generator';
 import {ChatService} from "../../services/chat.service";
+import {InvitationCodeService} from "../../services/invitationCode.service";
+import {InvitationCode} from "../../entity/invitationCode";
 
 export class CoachController {
 
@@ -22,6 +24,7 @@ export class CoachController {
     public studentService = new StudentService();
     public coachInvitationService = new CoachInvitationService();
     public chatService = new ChatService();
+    public invitationCodeService = new InvitationCodeService();
 
     deleteUser = async (req: RequestWithCoach, res: Response, next: NextFunction) => {
         try {
@@ -126,11 +129,10 @@ export class CoachController {
             let success_result;
             const invitation_code = req.body.invitation_code;
             if (isEmpty(invitation_code)) throw new HttpException(200, "input invite code");
-            const coach_have_code: Coach = await this.coachService.findCoachByInviteCode(invitation_code);
-            if(coach_have_code){
+            const have_code: InvitationCode = await this.invitationCodeService.findInviteCode(invitation_code);
+            if(have_code){
                 success_result = true;
-                coach_have_code.invitation_code = "";
-                await this.coachService.update(coach_have_code.id, coach_have_code);
+                await this.invitationCodeService.remove(have_code.id);
             }else{
                 success_result = false;
             }

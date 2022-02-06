@@ -1,12 +1,12 @@
 import { BaseEntity,  Entity, Column, PrimaryGeneratedColumn} from "typeorm";
 
 @Entity()
-export class Study extends BaseEntity {
+export class InvitationCode extends BaseEntity {
 
     @PrimaryGeneratedColumn()
     id: number;
 
     @Column({default:""})
-    title: String;
+    invitation_code: String;
 
 }

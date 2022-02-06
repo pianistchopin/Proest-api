@@ -52,6 +52,8 @@ class App {
             extended: true
         }));
         this.app.use('/uploads', express.static('uploads'));
+        this.app.set('view engine', 'ejs')
+        this.app.use('/public', express.static('public'))
     }
 
     private initializeRoutes(routes: Routes[]) {
