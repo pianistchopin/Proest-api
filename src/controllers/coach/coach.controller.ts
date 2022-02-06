@@ -199,7 +199,7 @@ export class CoachController {
     }
 
     saveFileStorage = (file: any, key_path, user_id, file_extension) => {
-        let saved_filename = key_path + "_" + user_id;
+        let saved_filename = key_path + "_" + user_id + "_" + moment();
 
 
         let file_path = 'uploads/coach/' + saved_filename + file_extension;

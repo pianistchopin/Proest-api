@@ -7,6 +7,7 @@ import {StudentService} from "../services/student/student.service";
 import ThumbnailGenerator from 'video-thumbnail-generator';
 import fs from "fs";
 import {Chat} from "../entity/chat";
+import moment from "moment";
 
 export class ChatController{
     
@@ -103,7 +104,7 @@ export class ChatController{
     
     saveFileStorage = (file: any, key_path, user_id) => {
         let file_extension = this.getFileExtension(file.mimetype)
-        let saved_filename = key_path + "_" + user_id;
+        let saved_filename = key_path + "_" + user_id + "_" + moment();
         
         
         let file_path = 'uploads/chat/' + saved_filename + "." + file_extension;

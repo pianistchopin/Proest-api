@@ -1,4 +1,5 @@
 import multer from "multer";
+import moment from "moment";
 import {RequestWithCoach, RequestWithStudent} from "../interfaces/auth.interface";
 
 /**
@@ -28,11 +29,11 @@ const storage_student = multer.diskStorage({
 
     filename: function (req: RequestWithStudent, file: any, cb: any) {
         const student_id = req.student.id;
-        cb(null, "student_" + student_id + ".jpg");
+        cb(null, "student_" + student_id + "_" + moment() + ".jpg");
     }
 });
 
-export const studentUpload = multer({storage: storage_student,limits: { fileSize:  100000000}});
+export const studentUpload = multer({storage: storage_student});
 
 const storage_coach = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -51,4 +52,4 @@ const storage_coach = multer.diskStorage({
     }
 });
 
-export const coachUpload = multer({storage: storage_coach,limits: { fileSize:  100000000}});
+export const coachUpload = multer({storage: storage_coach});
