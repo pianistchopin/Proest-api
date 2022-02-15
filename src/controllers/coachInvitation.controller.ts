@@ -166,7 +166,7 @@ export class CoachInvitationController{
                 callFirebaseApi(student_row.fcm_token, noti_body, notification_body_data);
                 // ---------------------------------------------------------------------------------
 
-            res.status(200).json({  message: 'accept invitation', status:1 });
+            res.status(200).json({ data:accept_invitation_data,  message: 'accept invitation', status:1 });
         }catch (error){
             next(error);
         }

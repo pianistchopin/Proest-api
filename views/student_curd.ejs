@@ -7,28 +7,23 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Hello, world!</title>
+    <title>Study management</title>
 </head>
 <body>
 <div class="container">
     <div class="card">
         <div class="card-header">
-            Hello
+            コース一覧管理
         </div>
         <div class="card-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <h5>add study</h5>
-                </div>
-            </div>
             <form action="/crud/study" method="post">
                 <div class="form-group row">
-                    <label for="inputPassword" class="col-sm-2 col-form-label">Study</label>
+                    <label for="inputPassword" class="col-sm-2 col-form-label">コース一覧</label>
                     <div class="col-sm-6">
-                        <input type="text" class="form-control" name="title" id="inputPassword" placeholder="Study">
+                        <input type="text" class="form-control" name="title" id="inputPassword">
                     </div>
                     <div class="col-sm-4">
-                        <button type="submit" class="btn btn-primary">Add</button>
+                        <button type="submit" class="btn btn-primary">追加</button>
                     </div>
                 </div>
             </form>
@@ -39,19 +34,19 @@
                         <thead>
                         <tr>
                             <th scope="col">#</th>
-                            <th scope="col">First</th>
-                            <th scope="col">edit</th>
+                            <th scope="col">コース一覧</th>
+                            <th scope="col"></th>
                         </tr>
                         </thead>
                         <tbody id="table_body">
                         <% var i = 1;
                         study_list.forEach(function(study){   %>
                             <tr>
-                                <th scope="row"><%= i+1  %></th>
+                                <th scope="row"><%= i  %></th>
                                 <td><%= study.title %></td>
                                 <td>
-                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"  onclick="editStudy(<%= study.id %>, '<%= study.title %>')" >update</button>
-                                 <button type="button" class="btn btn-danger" onclick="deleteStudy( <%= study.id %> )">delete</button>
+                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"  onclick="editStudy(<%= study.id %>, '<%= study.title %>')" >修整</button>
+                                 <button type="button" class="btn btn-danger" onclick="deleteStudy( <%= study.id %> )">削除</button>
                                 </td>
                             </tr>
                         <% i++ }) %>
