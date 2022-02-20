@@ -167,4 +167,15 @@ export class CoachInvitationService{
             .where("student_id = :student_id", { student_id: student_id })
             .execute();
     }
+
+    getTrainingStudentList = async (coach_id, expire_trial_date) => {
+        return await getManager().createQueryBuilder()
+            .select("Student.*")
+            .from(CoachInvitation, "CoachInvitation")
+            .innerJoin(Student, "Student", "CoachInvitation.student_id = Student.id")
+            .where("CoachInvitation.coach_id = :coach_id", {coach_id: coach_id})
+            .andWhere("CoachInvitation.status = 'accept'")
+            .andWhere("student.created_at =< :expire_trial_date", { expire_trial_date: expire_trial_date })
+            .getRawMany();
+    }
 }

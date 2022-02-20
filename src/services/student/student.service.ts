@@ -10,8 +10,8 @@ export class StudentService{
 
     }
 
-    findAll = () => {
-
+    findAll = async () => {
+        return await Student.find();
     }
 
     findOne = (id: number) => {

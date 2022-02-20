@@ -53,4 +53,10 @@ export class Student extends BaseEntity{
 
     @Column({default:""})
     stripe_customer_id: string;
+
+    @Column({default:""})
+    created_at: string;
+
+    @Column({default:""})
+    subscription_id: string;
 }

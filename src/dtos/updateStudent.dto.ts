@@ -1,4 +1,5 @@
 import {IsEmail, IsString, IsNumber} from "class-validator";
+import {Column} from "typeorm";
 
 export class UpdateStudentDto {
     @IsString()
@@ -48,4 +49,10 @@ export class UpdateStudentDto {
 
     @IsString()
     stripe_customer_id?: string;
+
+    @IsString()
+    created_at?: string;
+
+    @IsString()
+    subscription_id: string;
 }

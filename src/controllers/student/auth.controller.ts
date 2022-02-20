@@ -11,7 +11,7 @@ import {RequestWithStudent} from "../../interfaces/auth.interface";
 import {CreateStudentDto} from "../../dtos/createStudent.dto";
 import {callFirebaseApi} from "../../utils/fireBase.util"
 import {UpdateStudentDto} from "../../dtos/updateStudent.dto";
-
+import moment from "moment";
 
 class AuthController{
 
@@ -25,6 +25,7 @@ class AuthController{
     signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userData: SignUpUserDto  = req.body;
+            userData.created_at = moment().format('YYYY-MM-DD h:mm:ss');
             const signUpUser: Student = await this.authService.signUp(userData);
 
             const school_years = await this.schoolYearService.findAll();

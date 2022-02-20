@@ -17,10 +17,14 @@ export class StudentController {
     public coachService = new CoachService();
     public chatService = new ChatService();
 
+    public Stripe_Key = "sk_test_51KT3d2IoQDioSJRqskegkKIK0Wx7xffjNQVAkkWUKGshy4Gk9IJ4eFqh8YgpanQ8xMmIKFhSWjb1ahrPXOT7guKJ00FMxQ9k6j";
+    public stripe = require("stripe")(this.Stripe_Key);
+
     deleteUser = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
         try {
             const id = req.student.id;
 
+            const subscription_id = req.student.subscription_id;
             // const pendingStudent = this.coachInvitationService.findStudentByIdStatus(id, "pending");
             // if(pendingStudent){
             //     res.status(200).json({  message: 'can not delete student. you sent invitation to coach. please verify', status: 0 });
@@ -34,6 +38,10 @@ export class StudentController {
             await this.coachInvitationService.removeStudent(id);
             await this.chatService.removeStudent(id);
             await this.studentService.delete(id);
+
+            const deleted = await this.stripe.subscriptions.del(
+                subscription_id
+            );
 
             res.status(200).json({  message: 'delete coach', status: 1 });
         }catch (error){

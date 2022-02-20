@@ -1,4 +1,4 @@
-import {IsEmail, IsNumber, IsString} from "class-validator";
+import {IsEmail, IsNumber, IsString, IsBoolean} from "class-validator";
 
 export class UpdateCoachDto{
 
@@ -57,9 +57,9 @@ export class UpdateCoachDto{
     fcm_token?: string;
 
     @IsString()
-    stripe_connect_id?: string;
+    stripe_account_id?: string;
 
-    @IsString()
-    stripe_customer_id?: string;
+    @IsBoolean()
+    stripe_settings_complete?: boolean;
 
 }

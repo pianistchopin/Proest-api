@@ -61,8 +61,8 @@ export class Coach extends BaseEntity{
     fcm_token: string;
     
     @Column({default:""})
-    stripe_connect_id: string;
+    stripe_account_id: string;
 
-    @Column({default:""})
-    stripe_customer_id: string;
+    @Column({default: true})
+    stripe_settings_complete: boolean;
 }

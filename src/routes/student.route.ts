@@ -11,6 +11,7 @@ import multer from "multer";
 import {studentUpload} from '../utils/util';
 import {ChatController} from "../controllers/chat.controller";
 import path from "path";
+import {StripePaymentController} from "../controllers/stripePayment.controller";
 
 
 class StudentRoute implements Routes {
@@ -21,7 +22,8 @@ class StudentRoute implements Routes {
     studentController = new StudentController();
     coachInvitationController = new CoachInvitationController();
     chatController = new ChatController();
-    
+    stripePaymentController = new StripePaymentController();
+
     constructor() {
         this.initializeRoutes();
     }
@@ -52,6 +54,8 @@ class StudentRoute implements Routes {
         this.router.post(`${this.path}/get_end_coach`,authMiddleware, this.coachInvitationController.getEndCoach);
         this.router.post(`${this.path}/give_review`,authMiddleware, this.coachInvitationController.giveReview);
         this.router.post(`${this.path}/delete`, authMiddleware, this.studentController.deleteUser);
+        this.router.post(`${this.path}/create_stripe`, authMiddleware, this.stripePaymentController.createStripe);
+        this.router.post(`${this.path}/subscription`, authMiddleware, this.stripePaymentController.subscription);
     }
 }
 

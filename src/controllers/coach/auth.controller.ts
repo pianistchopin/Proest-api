@@ -9,6 +9,7 @@ import {StudyService} from "../../services/study.service";
 import {PitchingBattingService} from "../../services/pitchingBatting.service";
 import {RequestWithCoach} from "../../interfaces/auth.interface";
 import {callFirebaseApi} from "../../utils/fireBase.util";
+import moment from "moment";
 class AuthController{
     public authService = new AuthService();
     public schoolYearService = new SchoolYearService();
@@ -27,6 +28,7 @@ class AuthController{
     signUp = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
         try {
             const userData: SignUpUserDto  = req.body;
+            userData.created_at = moment().format('YYYY-MM-DD h:mm:ss');
             const signUpUser: Coach = await this.authService.signUp(userData);
 
             const school_years = await this.schoolYearService.findAll();
