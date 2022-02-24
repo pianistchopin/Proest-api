@@ -38,11 +38,11 @@ export class CoachService{
             .getRawMany();
     }
 
-    findCoachByStudy = async (studyId: string) => {
+    findCoachByCourse = async (courseId: string) => {
         return await getRepository(Coach)
             .createQueryBuilder()
             .select("*")
-            .where("study = :study", {study: studyId })
+            .where("course = :course", {course: courseId })
             .orderBy("rating", 'DESC')
             .getRawMany();
     }

@@ -1,11 +1,11 @@
-function editStudy(id, title) {
-    $("#study_id").val(id);
-    $("#study_title").val(title);
+function editCourse(id, title) {
+    $("#course_id").val(id);
+    $("#course_title").val(title);
 }
 
-function deleteStudy(id){
+function deleteCourse(id){
     $.ajax({
-        url: "/crud/study/delete",
+        url: "/crud/course/delete",
         type: "POST",
         data: {
             id: id

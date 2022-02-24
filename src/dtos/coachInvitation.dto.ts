@@ -37,4 +37,7 @@ export class CoachInvitationDto{
 
     @IsNumber()
     sum_rate: number;
+
+    @IsNumber()
+    course: number;
 }

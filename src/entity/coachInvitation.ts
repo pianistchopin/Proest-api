@@ -41,4 +41,7 @@ export class CoachInvitation extends BaseEntity {
 
     @Column({ type: "float", default:0.00 })
     sum_rate: number;
+
+    @Column({default: 0})
+    course: number;
 }

@@ -24,7 +24,7 @@ export class UpdateStudentDto {
     position?: number;
 
     @IsNumber()
-    study?: string;
+    course?: string;
 
     @IsString()
     team?: string;

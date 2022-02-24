@@ -143,9 +143,9 @@ export class StudentController {
     getRecommendCoach = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
         try {
             const student = req.student;
-            const study_id = student.study;
-            const recommend_coach: any = await this.coachService.findCoachByStudy(study_id);
-            res.status(200).json({ data: recommend_coach, message: 'recommend coach by top rating with same study', status:1 });
+            const course_id = student.course;
+            const recommend_coach: any = await this.coachService.findCoachByCourse(course_id);
+            res.status(200).json({ data: recommend_coach, message: 'recommend coach by top rating with same course', status:1 });
         }catch (error) {
             next(error);
         }
@@ -161,22 +161,22 @@ export class StudentController {
         }
     }
 
-    getCoachByStudy = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
+    getCoachByCourse = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
         try {
-            const study_id = req.body.study;
+            const course_id = req.body.course;
             const all_coach: Coach[] = await this.coachService.findAllCoach();
 
             let recommend_coach = [];
             all_coach.forEach((coach) => {
 
-                let studyArr = coach.study.split(",");
-                let study_flag = studyArr.find(id => id === study_id);
-                if(study_flag){
+                let courseArr = coach.course.split(",");
+                let course_flag = courseArr.find(id => id === course_id);
+                if(course_flag){
                     recommend_coach.push(coach);
                 }
             })
 
-            res.status(200).json({ data: recommend_coach, message: 'recommend coach by top rating with same study', status:1 });
+            res.status(200).json({ data: recommend_coach, message: 'recommend coach by top rating with same course', status:1 });
         }catch (error) {
             next(error);
         }

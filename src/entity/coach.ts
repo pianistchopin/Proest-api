@@ -25,7 +25,7 @@ export class Coach extends BaseEntity{
     position: number;
 
     @Column({default:""})
-    study: string;
+    course: string;
 
     @Column({default:""})
     baseball_career: string;
@@ -63,6 +63,6 @@ export class Coach extends BaseEntity{
     @Column({default:""})
     stripe_account_id: string;
 
-    @Column({default: true})
-    stripe_settings_complete: boolean;
+    @Column({default: 0})
+    stripe_settings_complete: number;
 }

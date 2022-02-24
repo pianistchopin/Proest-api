@@ -28,7 +28,7 @@ export class Student extends BaseEntity{
     position: number;
 
     @Column({default:""})
-    study: string;
+    course: string;
 
     @Column({default:""})
     team: string;

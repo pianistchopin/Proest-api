@@ -19,8 +19,8 @@ export class InvitationCodeService {
             .getRawOne();
     }
 
-    update = async (id: number, updateStudyDto: UpdateInvitationCodeDto) => {
-        await InvitationCode.update(id, updateStudyDto);
+    update = async (id: number, updateCourseDto: UpdateInvitationCodeDto) => {
+        await InvitationCode.update(id, updateCourseDto);
     }
 
     remove = async (id: number) => {

@@ -5,7 +5,7 @@ import {SignUpUserDto} from "../../dtos/signUpUser.dto";
 import {Coach} from "../../entity/coach";
 import {SchoolYearService} from "../../services/schoolYear.service";
 import {PositionService} from "../../services/position.service";
-import {StudyService} from "../../services/study.service";
+import {CourseService} from "../../services/course.service";
 import {PitchingBattingService} from "../../services/pitchingBatting.service";
 import {RequestWithCoach} from "../../interfaces/auth.interface";
 import {callFirebaseApi} from "../../utils/fireBase.util";
@@ -14,7 +14,7 @@ class AuthController{
     public authService = new AuthService();
     public schoolYearService = new SchoolYearService();
     public positionService = new PositionService();
-    public studyService = new StudyService();
+    public courseService = new CourseService();
     public pitchingBatting = new PitchingBattingService();
 
     constructor() {}
@@ -33,13 +33,13 @@ class AuthController{
 
             const school_years = await this.schoolYearService.findAll();
             const positions = await this.positionService.findAll();
-            const studies = await this.studyService.findAll();
+            const studies = await this.courseService.findAll();
             const pitching_battings = await this.pitchingBatting.findAll();
             const resData = {
                 user: signUpUser,
                 school_year_list: school_years,
                 position_list: positions,
-                study_list: studies,
+                course_list: studies,
                 pitching_batting_list: pitching_battings
             }
             res.status(201).json({ data: {...resData}, message: 'register', status: 1 });
@@ -61,13 +61,13 @@ class AuthController{
 
             const schoolYears = await this.schoolYearService.findAll();
             const positions = await this.positionService.findAll();
-            const studies = await this.studyService.findAll();
+            const studies = await this.courseService.findAll();
             const pitchingBattings = await this.pitchingBatting.findAll();
             const resData = {
                 user: user,
                 school_year_list: schoolYears,
                 position_list: positions,
-                study_list: studies,
+                course_list: studies,
                 pitching_batting_list: pitchingBattings
             }
             res.status(200).json({ data: {...resData}, message: 'login', status:1});

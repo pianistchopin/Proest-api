@@ -13,10 +13,10 @@ class DbCrudRoute implements Routes {
     }
 
     private initializeRoutes = () => {
-        this.router.get(`${this.path}/study`, this.crudController.getStudyList);
-        this.router.post(`${this.path}/study`, this.crudController.addStudyList);
-        this.router.post(`${this.path}/study/update`, this.crudController.updateStudy);
-        this.router.post(`${this.path}/study/delete`, this.crudController.deleteStudy);
+        this.router.get(`${this.path}/course`, this.crudController.getCourseList);
+        this.router.post(`${this.path}/course`, this.crudController.addCourseList);
+        this.router.post(`${this.path}/course/update`, this.crudController.updateCourse);
+        this.router.post(`${this.path}/course/delete`, this.crudController.deleteCourse);
 
         this.router.get(`${this.path}/invite_code`, this.crudController.getInvitationCodeList);
         this.router.post(`${this.path}/invite_code`, this.crudController.addInvitationCode);

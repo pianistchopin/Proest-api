@@ -7,7 +7,7 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <title>Study management</title>
+    <title>Course management</title>
 </head>
 <body>
 <div class="container">
@@ -16,7 +16,7 @@
             コース一覧管理
         </div>
         <div class="card-body">
-            <form action="/crud/study" method="post">
+            <form action="/crud/course" method="post">
                 <div class="form-group row">
                     <label for="inputPassword" class="col-sm-2 col-form-label">コース一覧</label>
                     <div class="col-sm-6">
@@ -40,13 +40,13 @@
                         </thead>
                         <tbody id="table_body">
                         <% var i = 1;
-                        study_list.forEach(function(study){   %>
+                        course_list.forEach(function(course){   %>
                             <tr>
                                 <th scope="row"><%= i  %></th>
-                                <td><%= study.title %></td>
+                                <td><%= course.title %></td>
                                 <td>
-                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"  onclick="editStudy(<%= study.id %>, '<%= study.title %>')" >修整</button>
-                                 <button type="button" class="btn btn-danger" onclick="deleteStudy( <%= study.id %> )">削除</button>
+                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"  onclick="editCourse(<%= course.id %>, '<%= course.title %>')" >修整</button>
+                                 <button type="button" class="btn btn-danger" onclick="deleteCourse( <%= course.id %> )">削除</button>
                                 </td>
                             </tr>
                         <% i++ }) %>
@@ -61,7 +61,7 @@
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <form action="/crud/study/update" method="post">
+                <form action="/crud/course/update" method="post">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">New message</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -71,8 +71,8 @@
                     <div class="modal-body">
                         <div class="form-group">
                             <label for="recipient-name" class="col-form-label">Recipient:</label>
-                            <input type="hidden" name="id" id="study_id" value="">
-                            <input type="text" class="form-control" name="title" id="study_title">
+                            <input type="hidden" name="id" id="course_id" value="">
+                            <input type="text" class="form-control" name="title" id="course_title">
                         </div>
                     </div>
                     <div class="modal-footer">

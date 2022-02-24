@@ -1,54 +1,54 @@
 import {NextFunction, Request, Response} from "express";
-import {StudyService} from "../services/study.service";
+import {CourseService} from "../services/course.service";
 import {InvitationCodeService} from "../services/invitationCode.service";
-import {UpdateStudyDto} from "../dtos/updateStudy.dto";
+import {UpdateCourseDto} from "../dtos/updateCourse.dto";
 import {Coach} from "../entity/coach";
 import { CoachService } from "../services/coach/coach.service";
 import {UpdateInvitationCodeDto} from "@dtos/updateInvitationCode.dto";
 
 export class CrudController{
-    public studyService = new StudyService();
+    public courseService = new CourseService();
     public coachService = new CoachService();
     public invitationCodeService = new InvitationCodeService();
-    getStudyList = async (req: Request, res: Response, next: NextFunction) => {
+    getCourseList = async (req: Request, res: Response, next: NextFunction) => {
 
-        const study_list = await this.studyService.findAll();
-        res.render('student_curd.ejs', { study_list : study_list});
+        const course_list = await this.courseService.findAll();
+        res.render('student_curd.ejs', { course_list : course_list});
     }
 
-    updateStudy = async (req: Request, res: Response, next: NextFunction) => {
-        const updateStudyDto: UpdateStudyDto = JSON.parse(JSON.stringify(req.body));
-        await this.studyService.update(updateStudyDto.id, updateStudyDto);
-        res.redirect('/crud/study');
+    updateCourse = async (req: Request, res: Response, next: NextFunction) => {
+        const updateCourseDto: UpdateCourseDto = JSON.parse(JSON.stringify(req.body));
+        await this.courseService.update(updateCourseDto.id, updateCourseDto);
+        res.redirect('/crud/course');
     }
 
-    addStudyList =  async (req: Request, res: Response, next: NextFunction) => {
-        const updateStudyDto: UpdateStudyDto = JSON.parse(JSON.stringify(req.body));
+    addCourseList =  async (req: Request, res: Response, next: NextFunction) => {
+        const updateCourseDto: UpdateCourseDto = JSON.parse(JSON.stringify(req.body));
         console.log(req.body);
-        await this.studyService.save(updateStudyDto);
-        res.redirect('/crud/study');
+        await this.courseService.save(updateCourseDto);
+        res.redirect('/crud/course');
     }
 
-    deleteStudy = async (req: Request, res: Response, next: NextFunction) => {
-        const study_id = req.body.id;
+    deleteCourse = async (req: Request, res: Response, next: NextFunction) => {
+        const course_id = req.body.id;
 
-        let study_exist_flag = true;
+        let course_exist_flag = true;
         const all_coach: Coach[] = await this.coachService.findAllCoach();
         all_coach.forEach((coach) => {
 
-            let studyArr = coach.study.split(",");
-            let study_flag = studyArr.find(id => id === study_id);
-            if(study_flag){
-                study_exist_flag = false;
+            let courseArr = coach.course.split(",");
+            let course_flag = courseArr.find(id => id === course_id);
+            if(course_flag){
+                course_exist_flag = false;
             }
         })
-        console.log(study_exist_flag);
-        if(study_exist_flag){
-            await this.studyService.remove(study_id);
+        console.log(course_exist_flag);
+        if(course_exist_flag){
+            await this.courseService.remove(course_id);
             res.status(200).json({ message: 'No data', status: 1});
         }
         else{
-            res.status(200).json({ message: 'exit study data in coach', status: 0});
+            res.status(200).json({ message: 'exit course data in coach', status: 0});
         }
 
     }

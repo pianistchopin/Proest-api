@@ -21,7 +21,7 @@ export class UpdateCoachDto{
     position?: number;
 
     @IsNumber()
-    study?: string;
+    course?: string;
 
     @IsString()
     baseball_career?: string;
@@ -60,6 +60,6 @@ export class UpdateCoachDto{
     stripe_account_id?: string;
 
     @IsBoolean()
-    stripe_settings_complete?: boolean;
+    stripe_settings_complete?: number;
 
 }
