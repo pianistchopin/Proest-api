@@ -24,6 +24,7 @@ export class CoachInvitationController{
             data.student_id = req.student.id;
             data.coach_id = req.body.coach_id;
             data.invite_date = moment().format('YYYY-MM-DD');
+            data.course = req.body.course;
 
             let student_name = req.student.user_name;
             

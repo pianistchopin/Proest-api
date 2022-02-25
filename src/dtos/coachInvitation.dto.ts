@@ -40,4 +40,7 @@ export class CoachInvitationDto{
 
     @IsNumber()
     course: number;
+
+    @IsNumber()
+    paid_flag: number;
 }

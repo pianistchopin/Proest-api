@@ -44,4 +44,7 @@ export class CoachInvitation extends BaseEntity {
 
     @Column({default: 0})
     course: number;
+
+    @Column({default: 0})
+    paid_flag: number;
 }

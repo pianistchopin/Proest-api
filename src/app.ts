@@ -1,7 +1,7 @@
 import express, { Request, Response } from 'express';
 import {Routes} from './interfaces/routes.interface';
 import errorMiddleware from './middlewares/error.middleware';
-import {SubscriptionDateTask, PayoutCoach} from "./cronjob/subscriptionAndPayout"
+import {SubscriptionDateAndPayoutTask} from "./cronjob/subscriptionAndPayout"
 import {
     Connection,
     ConnectionOptions,
@@ -25,8 +25,7 @@ class App {
         this.initializeRoutes(routes);
         this.initializeErrorHandling();
 
-        SubscriptionDateTask.start();
-        PayoutCoach.start();
+        SubscriptionDateAndPayoutTask.start();
 
     }
 

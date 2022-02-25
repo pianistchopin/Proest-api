@@ -7,9 +7,9 @@ import {UpdateStudentDto} from "../dtos/updateStudent.dto";
 import moment from "moment";
 
 export class StripePaymentController{
-    public Stripe_Key = "sk_test_51KT3d2IoQDioSJRqskegkKIK0Wx7xffjNQVAkkWUKGshy4Gk9IJ4eFqh8YgpanQ8xMmIKFhSWjb1ahrPXOT7guKJ00FMxQ9k6j";
+    public Stripe_Key = "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";
     public stripe = require("stripe")(this.Stripe_Key);
-    public priceId = "price_1KTmxvIoQDioSJRqshTmSPRP"
+    public priceId = "price_1KX63gIoQDioSJRqWXZzinl2"
     public coachService = new CoachService();
     public studentService = new StudentService();
 
@@ -90,7 +90,7 @@ export class StripePaymentController{
     }
 
     createSubscription = async (priceId:string, customerId: string) => {
-        const session = await this.stripe.subscriptions.create({
+        return await this.stripe.subscriptions.create({
             customer: customerId,
             items: [
               {
@@ -98,12 +98,16 @@ export class StripePaymentController{
               }
             ]
         });
-        return session;
     }
 
     subscription = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
         const student = req.student;
-        await this.createSubscription(this.priceId, student.stripe_customer_id);
+
+        let sub_response = await this.createSubscription(this.priceId, student.stripe_customer_id);
+
+        let updateStudentDto = new UpdateStudentDto();
+        updateStudentDto.subscription_id = sub_response.id;
+        await this.studentService.update(student.id, updateStudentDto);
         res.status(200).json({  message: 'subscription', status:1 });
     }
 

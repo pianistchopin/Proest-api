@@ -1,18 +1,20 @@
 import {StudentService} from "../services/student/student.service";
 import {CoachService} from "../services/coach/coach.service";
+import {CourseService} from "../services/course.service";
 import {CoachInvitationService} from "../services/coachInvitation.service";
 import {UpdateStudentDto} from "../dtos/updateStudent.dto";
+import {CoachInvitationDto} from "../dtos/coachInvitation.dto";
 import moment from "moment";
 
 const cron = require('node-cron');
 const studentService = new StudentService();
 const coachService = new CoachService();
 const coachInvitationService = new CoachInvitationService();
-const Stripe_Key = "sk_test_51KT3d2IoQDioSJRqskegkKIK0Wx7xffjNQVAkkWUKGshy4Gk9IJ4eFqh8YgpanQ8xMmIKFhSWjb1ahrPXOT7guKJ00FMxQ9k6j";
+const Stripe_Key = "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";
 const stripe = require("stripe")(Stripe_Key);
-const priceId = "price_1KTmxvIoQDioSJRqshTmSPRP"
+const priceId = "price_1KX63gIoQDioSJRqWXZzinl2"
 
-export const SubscriptionDateTask = cron.schedule('0 0 0 * * *', async () => {
+export const SubscriptionDateAndPayoutTask = cron.schedule('0 0 0 * * *', async () => {
 
     const all_student = await studentService.findAll();
 
@@ -25,29 +27,28 @@ export const SubscriptionDateTask = cron.schedule('0 0 0 * * *', async () => {
             await studentService.update(student.id, updateStudentDto);
         }
     }
-});
-
-export const PayoutCoach = cron.schedule('0 0 0 1 * *', async () => {
 
     const one_coach_cost = 5500;
     const all_coach = await coachService.findAllCoach();
-    const cur_date = moment().format('YYYY-MM-DD h:mm:ss');
-    const expire_trial_date = moment(cur_date).subtract(14, 'days').format("YYYY-MM-DD h:mm:ss");
-
+    const cur_date = moment().format('YYYY-MM-DD');
+    const pay_date = moment(cur_date).subtract(21, 'days').format("YYYY-MM-DD");
     for (const coach of all_coach) {
-
-        let student_list = await coachInvitationService.getTrainingStudentList(coach.id, expire_trial_date)
-
+        let student_list = await coachInvitationService.getTrainingStudentList(coach.id, pay_date)
         let amount = one_coach_cost * student_list.length;
         await payout(coach.stripe_account_id, amount);
+
+        let coachInvitationDto = new CoachInvitationDto();
+        await coachInvitationService.updatePayStudent(coach.id, pay_date, coachInvitationDto);
     }
-})
+});
 
 const checkSubscriptionDate = (student) => {
     const cur_date = moment().format('YYYY-MM-DD h:mm:ss');
-    const expire_pending_date = moment(student.created_at).subtract(14, 'days').format("YYYY-MM-DD h:mm:ss");
+    const expire_pending_date = moment(student.created_at).add(14, 'days').format("YYYY-MM-DD h:mm:ss");
 
-    return moment(cur_date).isAfter(expire_pending_date);
+    const flagExpiredate = moment(cur_date).isAfter(expire_pending_date);
+
+    return flagExpiredate && !student.subscription_id && student.stripe_customer_id
 }
 
 const createSubscription = async (priceId:string, customerId: string) => {

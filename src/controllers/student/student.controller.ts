@@ -17,7 +17,7 @@ export class StudentController {
     public coachService = new CoachService();
     public chatService = new ChatService();
 
-    public Stripe_Key = "sk_test_51KT3d2IoQDioSJRqskegkKIK0Wx7xffjNQVAkkWUKGshy4Gk9IJ4eFqh8YgpanQ8xMmIKFhSWjb1ahrPXOT7guKJ00FMxQ9k6j";
+    public Stripe_Key = "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";
     public stripe = require("stripe")(this.Stripe_Key);
 
     deleteUser = async (req: RequestWithStudent, res: Response, next: NextFunction) => {
