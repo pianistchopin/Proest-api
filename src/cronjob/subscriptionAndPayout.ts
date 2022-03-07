@@ -28,7 +28,7 @@ export const SubscriptionDateAndPayoutTask = cron.schedule('0 0 0 * * *', async 
         }
     }
 
-    const one_coach_cost = 5500;
+    const one_coach_cost = 4400;
     const all_coach = await coachService.findAllCoach();
     const cur_date = moment().format('YYYY-MM-DD');
     const pay_date = moment(cur_date).subtract(21, 'days').format("YYYY-MM-DD");
