@@ -5,11 +5,13 @@ import {CoachInvitationService} from "../services/coachInvitation.service";
 import {UpdateStudentDto} from "../dtos/updateStudent.dto";
 import {CoachInvitationDto} from "../dtos/coachInvitation.dto";
 import moment from "moment";
+import {CoachCostService} from "../services/coachCost.service";
 
 const cron = require('node-cron');
 const studentService = new StudentService();
 const coachService = new CoachService();
 const coachInvitationService = new CoachInvitationService();
+const coachCostService = new CoachCostService();
 const Stripe_Key = "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";
 const stripe = require("stripe")(Stripe_Key);
 const priceId = "price_1KX63gIoQDioSJRqWXZzinl2"
@@ -28,7 +30,8 @@ export const SubscriptionDateAndPayoutTask = cron.schedule('0 0 0 * * *', async 
         }
     }
 
-    const one_coach_cost = 4400;
+    let coachCost_arr = await coachCostService.findAll();
+    const one_coach_cost = coachCost_arr[0].cost;
     const all_coach = await coachService.findAllCoach();
     const cur_date = moment().format('YYYY-MM-DD');
     const pay_date = moment(cur_date).subtract(21, 'days').format("YYYY-MM-DD");
